@@ -3,8 +3,8 @@ BD2013-Projekt
 
 Projekt na Bazy Danych 2013, temat: Quizy tematyczne.
 
-Development:
-------------
+Development - Guard:
+--------------------
 
 Będziemy korzystać z Sassa i CoffeeScriptu - to są języki, które kompilują się do, odpowiednio - CSSa i JavaScriptu.
 
@@ -25,3 +25,8 @@ Po tej operacji, jak chcecie, żeby guard nasłuchiwał zmiany plików i je prze
 `bundle exec guard`
 
 I guard będzie automatycznie kompilował sobie te pliki.
+
+Schemat:
+--------
+
+Schemat znajduje się w pliku `schemat.sql`.
