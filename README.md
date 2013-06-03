@@ -26,7 +26,19 @@ Po tej operacji, jak chcecie, żeby guard nasłuchiwał zmiany plików i je prze
 
 I guard będzie automatycznie kompilował sobie te pliki.
 
+Development - Uruchomienie:
+---------------------------
+
+Pamiętajcie, żeby stworzyć sobie plik config.php - po prostu przekopiujcie config.php.ex i zmieńcie wartości na takie jak macie w bazie.
+Dodatkowo, wygenerujcie sobie sekret: wbijcie na [ten link](http://hash.online-convert.com/sha512-generator), wpiszcie cokolwiek randomowego i kliknijcie convert - wstawcie to sobie do zmiennej APP_SECRET.
+
 Schemat:
 --------
 
 Schemat znajduje się w pliku `schemat.sql`.
+
+TODO:
+-----
+
+Dodałem tabelę 'klucz_przegladarki', bo musimy jakoś sensownie i bezpiecznie trzymać sesję w bazie.
+Zaktualizujcie te schematy ;).

@@ -1,4 +1,3 @@
-
 CREATE SEQUENCE pytanie_seq;
 CREATE SEQUENCE gra_seq;
 CREATE SEQUENCE odpowiedz_seq;
@@ -93,3 +92,11 @@ CREATE TABLE srodowisko (
 	CONSTRAINT srodowisko_uniq UNIQUE(id_sesji, nazwa)
 );
 
+CREATE TABLE klucz_przegladarki (
+  klucz text PRIMARY KEY,
+  user_agent text NOT NULL,
+  wygasa datetime NOT NULL,
+  id_uzytkownika NOT NULL,
+  CONSTRAINT klucz_przegladarki_uniq UNIQUE(klucz, id_uzytkownika),
+  CONSTRAINT klucz_przegladarki_id_uzytkownika_fk FOREIGN KEY (id_uzytkownika) REFERENCES uzytkownik ON DELETE CASCADE ON UPDATE CASCADE
+);
