@@ -45,8 +45,10 @@ function signed_in() {
   return current_user() !== null;
 }
 
-/* Próbuje zalogować użytkownika. Zwraca false, gdy się nie uda, true wpp. Ustawia cookies, więc musi być przeprowadzane nim zostanie wysłana jakakolwiek treść. */
-function sign_in($user, $password, $expires = 7 * 3600) {
+/* Próbuje zalogować użytkownika. Zwraca false, gdy się nie uda, true wpp. 
+   Ustawia cookies, więc musi być przeprowadzane nim zostanie wysłana 
+   jakakolwiek treść. */
+function sign_in($user, $password, $expires = 86400) {
   if(signed_in()) return;
 
   $user_name = strtolower($user);

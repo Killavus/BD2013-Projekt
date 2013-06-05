@@ -4,4 +4,5 @@
  */
 
 require_once 'src/user.php';
+require_once 'src/router.php';
 ?>
