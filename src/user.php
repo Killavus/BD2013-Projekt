@@ -67,6 +67,7 @@ function sign_in($user, $password, $expires = 86400) {
 
   $user_id = $check->fetchColumn();
   $check->closeCursor();
+
   if($user_id === FALSE)
     return false;
 
@@ -96,5 +97,9 @@ function new_session($user_id, $user_agent, $expires) {
   $stmt->closeCursor();
 
   setcookie('bd2013_session', $new_session_id, time() + $expires);
+}
+
+function create_user($login, $name, $password) {
+  $db = user_database();
 }
 ?>

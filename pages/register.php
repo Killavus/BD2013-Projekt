@@ -1,5 +1,6 @@
 <div class="container">
   <h1>Witamy!</h1>
+  <?php if(!signed_in()) { ?>
   <p>Aby korzystać z aplikacji, należy się zarejestrować.</p>
   <form action="actions/register.php" method="post" class="form-horizontal">
     <div class="control-group">
@@ -33,8 +34,16 @@
     </div>
     <div class="control-group">
       <div class="controls">
-        <button type="submit" class="btn btn-primary">Zarejestruj</button>
+        <button type="submit"  class="btn btn-primary">Zarejestruj</button>
       </div>
     </div>
   </form>
+  <?php }
+  else {
+    $user = current_user();
+  ?>
+  <p>Aktualnie jesteś zalogowany jako <?php echo $user['nazwa']; ?>.</p>
+  <?php
+  }
+  ?>
 </div>

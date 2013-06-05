@@ -14,7 +14,7 @@ function get_page($default) {
     $page = $default;
 
   return $page;
-}w
+}
 
 /* UWAGA! Pamiętajcie o tym, że redirecty muszą być w 'headers', 
    nie w 'pages'! 
