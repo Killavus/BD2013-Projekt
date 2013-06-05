@@ -1,5 +1,6 @@
-CREATE SEQUENCE pytanie_seq;
+-- Schemat bazy danych do projektu:
 CREATE SEQUENCE gra_seq;
+CREATE SEQUENCE pytanie_seq;
 CREATE SEQUENCE odpowiedz_seq;
 CREATE SEQUENCE obrazek_seq;
 CREATE SEQUENCE uzytkownik_seq;
@@ -95,8 +96,19 @@ CREATE TABLE srodowisko (
 CREATE TABLE klucz_przegladarki (
   klucz text PRIMARY KEY,
   user_agent text NOT NULL,
-  wygasa datetime NOT NULL,
-  id_uzytkownika NOT NULL,
+  wygasa timestamp NOT NULL,
+  id_uzytkownika bigint NOT NULL,
   CONSTRAINT klucz_przegladarki_uniq UNIQUE(klucz, id_uzytkownika),
   CONSTRAINT klucz_przegladarki_id_uzytkownika_fk FOREIGN KEY (id_uzytkownika) REFERENCES uzytkownik ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Odpowiednie GRANTy dla użytkowników:
+-- Zakładam, że twórca gry to rola bd2013_creator, a użytkownik - bd2013_user.
+-- GRANT SELECT ON TABLE gra, klucz_przegladarki, obrazek, odpowiedz, pytanie, pytanie_odpowiedz, sesja, srodowisko, uprawnienie, uzytkownik TO bd2013_creator;
+-- GRANT SELECT ON TABLE gra, klucz_przegladarki, obrazek, odpowiedz, pytanie, pytanie_odpowaiedz, sesja, srodowisko, uprawnienie, uzytkownik TO bd2013_user;
+-- GRANT INSERT ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki TO bd2013_user;
+-- GRANT UPDATE ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki TO bd2013_user;
+-- GRANT UPDATE ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki, pytanie, pytanie_odpowiedz, odpowiedz, gra, obrazek, uprawnienie TO bd2013_creator;
+-- GRANT INSERT ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki, pytanie, pytanie_odpowiedz, odpowiedz, gra, obrazek, uprawnienie TO bd2013_creator;
+-- Jeżeli Twoim administratorem jest bd2013_admin, to po stworzeniu bazy (CREATE DATABASE <nazwa>)
+-- należy zrobić: ALTER DATABASE <nazwa> OWNER TO bd2013_admin;
