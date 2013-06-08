@@ -30,7 +30,8 @@ function output_box() {
 	<div class="alert alert-info">
   	<strong>Uwaga!</strong> Aby korzystać z aplikacji, należy się zarejestrować.
 	</div>
-  <?php } 
+  <?php
+	} 
 	output_box(); ?>
 	<div class="well">
   <form action="actions/register.php" method="post" class="form-horizontal">
