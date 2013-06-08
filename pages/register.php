@@ -2,9 +2,6 @@
 function output_box() {
   if(isSet($_GET['success'])) {
     echo "<div class='alert alert-success'>
-            <button type='button' class='close' data-dismiss='alert'>
-              &times;
-            </button>
             <strong>Super!</strong> Twój użytkownik został stworzony.
           </div>";
   }
@@ -20,9 +17,6 @@ function output_box() {
       $error_code = $error_codes[(int)$_GET['error']];
 
       echo "<div class='alert alert-error'>
-              <button type='button' class='close' data-dismiss='alert'>
-                &times;
-              </button>
               <strong>Błąd!</strong> $error_code
             </div>";
     }
@@ -31,37 +25,47 @@ function output_box() {
 ?>
 <div class="container">
   <h1>Witamy!</h1>
-  <?php if(!signed_in()) { ?>
-  <p>Aby korzystać z aplikacji, należy się zarejestrować.</p>
-  <?php output_box(); ?>
+  <?php if(!signed_in()) { 
+		if(!isSet($_GET['success']) && !isSet($_GET['error'])) { ?>
+	<div class="alert alert-info">
+  	<strong>Uwaga!</strong> Aby korzystać z aplikacji, należy się zarejestrować.
+	</div>
+  <?php } 
+	output_box(); ?>
+	<div class="well">
   <form action="actions/register.php" method="post" class="form-horizontal">
     <div class="control-group">
       <label class="control-label" for="new-username">Nazwa użytkownika</label>
       <div class="controls">
         <input type="text" id="new-username" name="user[name]" 
-          placeholder="Domyślnie jak login" />
+          placeholder="Domyślnie login" tabindex=1/>
+					<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
+						data-content="Nazwa będzie widoczna dla innych użytkowników"
+							data-original-title="Pomoc"><i class="icon-question-sign"></i></a>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="new-login">Login</label>
       <div class="controls">
         <input type="text" id="new-login" name="user[login]"
-          required="required" pattern="[a-zA-Z0-9_\-\.]{3,}" />
-        <span class="help-block">Małe, duże litery, cyfry oraz . i -. Od 3 znaków.</span>
+          required="required" pattern="[a-zA-Z0-9_\-\.]{3,}" tabindex=2/>
+					<a href=# class="setPopover" data-toggle="popover" data-placement="right"
+						data-content="Używaj tylko małych i dużych liter, cyfr, kropek oraz myślników. Login musi zawierać przynajmniej 3 znaki."
+							data-original-title="Pomoc"> <i class="icon-question-sign"></i> </a>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="new-password">Hasło</label>
       <div class="controls">
         <input type="password" id="new-password" name="user[password]"
-          required="required" />
+          required="required" tabindex=3/>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="new-password-repeat">Powtórz hasło</label>
       <div class="controls">
         <input type="password" id="new-password-repeat" name="password-repeat"
-          required="required" />
+          required="required" tabindex=4/>
       </div>
     </div>
     <div class="control-group">
@@ -70,6 +74,7 @@ function output_box() {
       </div>
     </div>
   </form>
+	</div>
   <?php }
   else {
     $user = current_user();
@@ -79,3 +84,8 @@ function output_box() {
   }
   ?>
 </div>
+
+<!-- to jest syf, ale póki co zostanie -->
+<script type="text/javascript">
+	$('.setPopover').popover();
+</script>
