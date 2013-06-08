@@ -1,0 +1,1 @@
+To tylko testowy plik, dodaje zeby sprawdzic czy mi git dziala. 
