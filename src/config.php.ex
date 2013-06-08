@@ -1,4 +1,6 @@
 <?php
+define('ROOT', ''); // Gdzie znajduje się aplikacja w Twojej bazie danych? Podaj ścieżkę bezwzględną. Zostaw bez / na końcu. 
+                    // Zostaw puste jak aplikacja jest w roocie drzewa katalogów serwera.
 define('ADMIN_DB_USER', 'bd_admin');
 define('ADMIN_DB_PASS', '<zmienić hasło>');
 define('CREATOR_DB_USER', 'bd_creator');
