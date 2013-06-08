@@ -110,5 +110,6 @@ CREATE TABLE klucz_przegladarki (
 -- GRANT UPDATE ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki TO bd2013_user;
 -- GRANT UPDATE ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki, pytanie, pytanie_odpowiedz, odpowiedz, gra, obrazek, uprawnienie TO bd2013_creator;
 -- GRANT INSERT ON TABLE uzytkownik, srodowisko, sesja, klucz_przegladarki, pytanie, pytanie_odpowiedz, odpowiedz, gra, obrazek, uprawnienie TO bd2013_creator;
+-- GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO bd2013_user, bd2013_admin, bd2013_creator;
 -- Jeżeli Twoim administratorem jest bd2013_admin, to po stworzeniu bazy (CREATE DATABASE <nazwa>)
 -- należy zrobić: ALTER DATABASE <nazwa> OWNER TO bd2013_admin;

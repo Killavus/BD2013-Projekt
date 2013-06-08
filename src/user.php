@@ -31,13 +31,35 @@ function current_user() {
     $stmt->execute([':hash' => $_COOKIE['bd2013_session'],
                     ':ua'   => $user_agent]);
 
-    $result = $stmt->fetchRow(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if($result === false) $result = null;
 
     $GLOBALS['g_user'] = $result;
   }
   
   return $g_user;
+}
+
+function get_user($name, $case_insensitive = true) {
+  $key = "login";
+
+  if($case_insensitive) {
+    $key = "lower(login)";
+    $name = strtolower($name);
+  }
+
+  $db = user_database();
+
+  $stmt = $db->prepare("SELECT id_uzytkownika, login, nazwa 
+                          FROM uzytkownik 
+                          WHERE $key = :name");
+
+  $stmt->execute([':name' => $name]);
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt->closeCursor();
+
+  if(!$user) $user = null;
+  return $user;
 }
 
 /* Sprawdza, czy w ogóle użytkownik jest zalogowany. */
@@ -99,7 +121,17 @@ function new_session($user_id, $user_agent, $expires) {
   setcookie('bd2013_session', $new_session_id, time() + $expires);
 }
 
+/* Tworzy nowego użytkownika o zadanym loginie, nazwie użytkownika i haśle. */
 function create_user($login, $name, $password) {
   $db = user_database();
+
+  $stmt = $db->prepare('INSERT INTO uzytkownik(login, nazwa, hash_passwd) 
+      VALUES(:login, :nazwa, :haslo)');
+
+  $stmt->execute([':login' => $login, 
+                  ':nazwa' => $name, 
+                  ':haslo' => crypt($password . APP_SECRET)]);
+
+  $stmt->closeCursor();
 }
 ?>
