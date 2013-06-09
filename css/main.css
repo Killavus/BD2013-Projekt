@@ -1,0 +1,11 @@
+.listNoneStyle
+{
+	list-style-type: none;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.listNoneStyle a:hover
+{
+	text-decoration: none;
+}

@@ -1,6 +1,6 @@
 <?php
   require_once 'src/core.php';
-  @include_once 'headers/' . get_page('register') . '.php';
+  @include_once 'headers/' . get_page('welcome') . '.php';
 ?>
 <!doctype html>
 <html lang="pl">
@@ -22,14 +22,28 @@
           <a class="brand" href="#">Game Maker</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="#">Zaloguj się</a></li>
               <li><a href="#">Lista gier</a></li>
               <li><a href="#">Dla Twórców</a></li>
             </ul>
+						<?php if(signed_in()) { ?>
+						<li class="listNoneStyle pull-right navbar-text">
+							<a href="index.php?logout=1"> wyloguj </a>
+						</li>
+						<li class="listNoneStyle pull-right navbar-text">
+							<?php printf("Zalogowany jako <strong>%s</strong>", current_user()) ?>
+						<?php
+						}
+						else { ?>
+						<li class="listNoneStyle pull-right navbar-text">
+							<a href="index.php?page=login"> zaloguj się </a>
+						</li>
+						<li class="listNoneStyle pull-right navbar-text"> <strong> Niezalogowany </strong> </li>
+						<?php
+						} ?>
           </div>
         </div>
       </div>
     </div>
-    <?php require_once 'pages/' . get_page('register') . '.php'; ?>
+    <?php require_once 'pages/' . get_page('welcome') . '.php'; ?>
   </body>
 </html>

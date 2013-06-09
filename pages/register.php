@@ -23,17 +23,14 @@ function output_box() {
   }
 }
 ?>
+<div class="well">
 <div class="container">
-  <h1>Witamy!</h1>
   <?php if(!signed_in()) { 
-		if(!isSet($_GET['success']) && !isSet($_GET['error'])) { ?>
-	<div class="alert alert-info">
-  	<strong>Uwaga!</strong> Aby korzystać z aplikacji, należy się zarejestrować.
-	</div>
-  <?php
-	} 
 	output_box(); ?>
-	<div class="well">
+	<div class="text-center" style="margin-bottom: 40px">
+		<h3> Rejestracja </h3>
+	</div>
+	<div class="span6 offset2">
   <form action="actions/register.php" method="post" class="form-horizontal">
     <div class="control-group">
       <label class="control-label" for="new-username">Nazwa użytkownika</label>
@@ -84,6 +81,7 @@ function output_box() {
   <?php
   }
   ?>
+</div>
 </div>
 
 <!-- to jest syf, ale póki co zostanie :) :) -->

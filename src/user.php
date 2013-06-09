@@ -74,24 +74,28 @@ function sign_in($user, $password, $expires = 86400) {
   if(signed_in()) return;
 
   $user_name = strtolower($user);
-  $password_hash = crypt($password . APP_SECRET);
   $user_agent = md5($_SERVER['HTTP_USER_AGENT']);
 
   $db = user_database();
 
-  $check = $db->prepare('SELECT id_uzytkownika FROM uzytkownicy 
-                          WHERE LOWER(nazwa) = :nazwa AND
-                                hash_passwd = :hash');
-  $check->execute([
+  $check = $db->prepare('SELECT id_uzytkownika,hash_passwd FROM uzytkownik 
+                          WHERE LOWER(nazwa) = :nazwa');
+  
+	$check->execute([
     ':nazwa' => $user_name,
-    ':hash' => $password_hash
-  ]);
+	]);
+	
+	$row = $check->fetch(PDO::FETCH_ASSOC);
 
-  $user_id = $check->fetchColumn();
+  $user_id = $row['id_uzytkownika'];
+	$hash = $row['hash_passwd'];
   $check->closeCursor();
 
   if($user_id === FALSE)
     return false;
+	
+	if(crypt($password . APP_SECRET,$hash) != $hash)
+		return false;
 
   new_session($user_id, $user_agent, $expires);
   return true;
