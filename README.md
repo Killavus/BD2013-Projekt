@@ -47,4 +47,5 @@ TODO:
 -----
 
 -Zrobić funkcje do odczytu i zapisu zmiennych w sesji. (Sowa to zrobi)
+
 -Zrobić zmienną globalną gdzie będzie id sesji(gry)
