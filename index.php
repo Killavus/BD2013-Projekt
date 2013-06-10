@@ -30,7 +30,7 @@
 							<a href="index.php?logout=1"> wyloguj </a>
 						</li>
 						<li class="listNoneStyle pull-right navbar-text">
-							<?php printf("Zalogowany jako <strong>%s</strong>", current_user()) ?>
+							<?php printf("Zalogowany jako <strong>%s</strong>", current_user()['nazwa']) ?>
 						<?php
 						}
 						else { ?>

@@ -79,10 +79,10 @@ function sign_in($user, $password, $expires = 86400) {
   $db = user_database();
 
   $check = $db->prepare('SELECT id_uzytkownika,hash_passwd FROM uzytkownik 
-                          WHERE LOWER(nazwa) = :nazwa');
+                          WHERE LOWER(login) = :login');
   
 	$check->execute([
-    ':nazwa' => $user_name,
+    ':login' => $user_name,
 	]);
 	
 	$row = $check->fetch(PDO::FETCH_ASSOC);
@@ -94,7 +94,7 @@ function sign_in($user, $password, $expires = 86400) {
   if($user_id === FALSE)
     return false;
 	
-	if(crypt($password . APP_SECRET,$hash) != $hash)
+	if(crypt($password . APP_SECRET, $hash) != $hash)
 		return false;
 
   new_session($user_id, $user_agent, $expires);
@@ -122,7 +122,7 @@ function new_session($user_id, $user_agent, $expires) {
 
   $stmt->closeCursor();
 
-  setcookie('bd2013_session', $new_session_id, time() + $expires);
+  setcookie('bd2013_session', $new_session_id, time() + (int)$expires, '/');
 }
 
 /* Tworzy nowego użytkownika o zadanym loginie, nazwie użytkownika i haśle. */

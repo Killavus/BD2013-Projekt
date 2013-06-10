@@ -1,7 +1,7 @@
 <div class="container">
 	
 	<div class="page-header">
-		<h2>Witaj na portalu &lt;nazwa&gt <small>Zagrasz z nami?</small> </h2>
+		<h2>Witaj na portalu GameMasters! <small>Zagrasz z nami?</small> </h2>
 	</div>
 
  <?php if(!signed_in()) { ?>
@@ -16,7 +16,7 @@
 	</div>
 
 	<div>
-		Jakaś fajna treść opisująca naszą zajebistą grę.
+		Lorem ipsum dolor sit amet&hellip;
 	</div>
 
 </div>

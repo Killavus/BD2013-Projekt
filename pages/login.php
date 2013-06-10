@@ -2,15 +2,15 @@
 function message_box(){
 	if(isSet($_GET['error'])){
 		$error_codes = [
-			1 => "Błędny format loginu",
-			2 => "Login nie może być pusty",
-			3 => "Niepoprawne dane logowania"
+			1 => "Błędny format loginu.",
+			2 => "Login nie może być pusty.",
+			3 => "Niepoprawne dane logowania."
 		];
 
 		$error_code = $error_codes[(int)$_GET['error']];
 
 		echo "<div class='alert alert-error'>
-						<p class='text-center'><strong>Błąd!</strong> $error_code </p>
+						<p class='text-center'><strong>Błąd!</strong>$error_code</p>
 					</div>";
 	}
 }

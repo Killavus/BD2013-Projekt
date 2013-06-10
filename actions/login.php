@@ -15,6 +15,9 @@ $passwd = $db->quote($_POST['password']);
 Ale to jest niepotrzebne, bo w sign_in są zapytania przygotowane i to się samo escapuje.
 */
 
+$user = $_POST['login'];
+$passwd = $_POST['password'];
+
 if(preg_match('/^[a-zA-Z0-9_\-\.]{3,}$/', $user) !== 1) {
 	redirect_to('login',['error' => 1]);
 	return null;
@@ -30,6 +33,5 @@ if(sign_in($user,$passwd) === false){
 	return null;
 }
 
-redirect_to('welcome',null);
-
+redirect_to('welcome');
 ?>
