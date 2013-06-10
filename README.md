@@ -37,8 +37,14 @@ Schemat:
 
 Schemat znajduje się w pliku `schemat.sql`.
 
-TODO:
------
+Ważne informacje:
+-----------------
 
 Dodałem tabelę 'klucz_przegladarki', bo musimy jakoś sensownie i bezpiecznie trzymać sesję w bazie.
 Zaktualizujcie te schematy ;).
+
+TODO:
+-----
+
+-Zrobić funkcje do odczytu i zapisu zmiennych w sesji. (Sowa to zrobi)
+-Zrobić zmienną globalną gdzie będzie id sesji(gry)
