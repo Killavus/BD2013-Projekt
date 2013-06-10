@@ -1,6 +1,9 @@
 <?php
   require_once 'src/core.php';
   @include_once 'headers/' . get_page('welcome') . '.php';
+
+  if(isSet($_GET['logout']))
+    sign_out();
 ?>
 <!doctype html>
 <html lang="pl">

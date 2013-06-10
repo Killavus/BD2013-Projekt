@@ -40,6 +40,18 @@ function current_user() {
   return $g_user;
 }
 
+function sign_out() {
+  if(!isSet($_COOKIE['bd2013_session']))
+    return;
+
+  $db = user_database();
+  
+  $stmt = $db->prepare('DELETE FROM klucz_przegladarki WHERE klucz = :klucz');
+  $stmt->execute([':klucz' => $_COOKIE['bd2013_session']]);
+
+  setcookie('bd2013_session', '', 0, '/');
+}
+
 function get_user($name, $case_insensitive = true) {
   $key = "login";
 
