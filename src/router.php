@@ -4,8 +4,9 @@ require_once 'src/config.php';
 function page_whitelist() {
   return [
     'register',
-    'game',
-    'modify',
+    'creator',
+    'play',
+    'welcome',
     'login'
   ];
 }

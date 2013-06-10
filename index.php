@@ -25,8 +25,11 @@
           <a class="brand" href="#">Game Maker</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="#">Lista gier</a></li>
-              <li><a href="#">Dla Twórców</a></li>
+              <?php if(signed_in()) { ?>
+              <li><a href="?page=play">Zagraj</a></li>
+              <li><a href="?page=creator">Twórz</a></li>
+              <li><a href="?page=settings">Ustawienia</a></li>
+              <?php } ?>
             </ul>
 						<?php if(signed_in()) { ?>
 						<li class="listNoneStyle pull-right navbar-text">
