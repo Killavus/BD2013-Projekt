@@ -36,16 +36,18 @@ function _has_rank($game, $user, $rank) {
   $game_id = deduce_game_id($game);
   $user_id = deduce_user_id($user);
 
+  $db = user_database();
   $rank_sql = '';
-  if(is_array($rank))
+  if(is_array($rank)) {
+    $rank = array_map([$db, 'quote'], $rank);
     $rank_sql = ' IN(' . join(', ', $rank) . ')';
+  }
   else
     $rank_sql = " = '$rank'";
 
   if((int)$game_id < 1 or (int)$user_id < 1)
     return false;
 
-  $db = user_database();
   $stmt = $db->prepare("SELECT COUNT(*) FROM uprawnienie 
                           WHERE id_gry = :id_gry
                           AND id_uzytkownika = :id_uzytkownika
@@ -143,5 +145,19 @@ function create_game($name, $user = NULL) {
   }
 
   return $game_id;
+}
+
+function check_permissions() {
+  if(!isSet($_GET['gid']))
+    die("Musisz podać ID gry.");
+
+  $game = get_game((int)$_GET['gid']);
+  if($game === null)
+    die("Gra o podanym ID nie istnieje.");
+
+  if(!can_modify_game($game))
+    die("Nie możesz edytować tej gry.");
+
+  return $game;
 }
 ?>

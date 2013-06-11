@@ -7,4 +7,5 @@ require_once 'src/utils.php';
 require_once 'src/user.php';
 require_once 'src/game.php';
 require_once 'src/router.php';
+require_once 'src/questions.php';
 ?>

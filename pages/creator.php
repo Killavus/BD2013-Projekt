@@ -3,9 +3,13 @@ $available_actions = [
   'index',
   'create',
   'edit',
-  'add_question',
-  'add_answer',
   'delete',
+  'edit_question',
+  'add_question',
+  'delete_question',
+  'add_answer',
+  'edit_answer',
+  'delete_answer',
   'permissions'
 ];
 

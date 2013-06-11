@@ -44,8 +44,22 @@ function deduce_user_id($user) {
 
 function deduce_game_id($game) {
   if(is_array($game))
-    $game = isSet($game['id_gry']) ? $game['id_gry'] : null;
+    if(isSet($game['gra']))
+      $game = isSet($game['gra']['id_gry']) ? $game['gra']['id_gry'] : null;
+    else
+      $game = isSet($game['id_gry']) ? $game['id_gry'] : null;
 
   return $game;
+}
+
+function deduce_question_id($question) {
+  if(is_array($question))
+    if(is_array($question['pytanie']))
+      $question = isSet($question['pytanie']['id_pytania'])? 
+        $question['pytanie']['id_pytania'] : null;
+    else
+      $question = isSet($question['id_pytania']) ? $question['id_pytania'] : null;
+  
+  return $question;
 }
 ?>
