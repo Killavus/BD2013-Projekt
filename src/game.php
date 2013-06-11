@@ -15,7 +15,7 @@ function get_game($game) {
 
   $db = user_database();
 
-  $stmt = $db->prepare('SELECT id_gry, nazwa pytanie.* FROM gra
+  $stmt = $db->prepare('SELECT id_gry, gra.nazwa AS nazwa_gry, pytanie.* FROM gra
                           JOIN pytanie USING(id_pytania)
                           WHERE id_gry = :id');
 
@@ -28,8 +28,23 @@ function get_game($game) {
     return null;
 
   return [
-    'gra' => only($result, ['id_gry', 'nazwa']),
-    'pytanie' => except($result, ['id_gry', 'nazwa'])
+    'gra' => only($result, ['id_gry', 'nazwa_gry']),
+    'pytanie' => except($result, ['id_gry', 'nazwa_gry'])
   ];
+}
+
+function game_exists($name) {
+  $db = user_database();
+
+  $stmt = $db->prepare('SELECT COUNT(*) FROM gra WHERE nazwa = :nazwa');
+
+  $stmt->execute([':nazwa' => $name]);
+
+  $result = $stmt->fetchColumn();
+  $stmt->closeCursor();
+
+  var_dump($result);
+
+  return $result > 0;
 }
 ?>

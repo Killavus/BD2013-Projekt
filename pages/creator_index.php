@@ -29,7 +29,7 @@
           $id = $game['id_gry'];
         ?>
         <tr>
-          <td><?php echo $game['nazwa']; ?></td>
+          <td><?php echo $game['nazwa_gry']; ?></td>
           <td>
             <a href="?page=creator&action=edit&gid=<?php echo $id; ?>" 
               class="btn btn-small btn-primary">Edytuj</a>&nbsp;

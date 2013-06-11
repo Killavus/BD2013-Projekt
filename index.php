@@ -12,17 +12,17 @@
     <meta charset="UTF-8" />
 
     <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/boostrap-responsive.css" />
     <link rel="stylesheet" href="css/main.css" />
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/global.js"></script>
   </head>
   <body>
     <div class="navbar navbar-inverse">
       <div class="navbar-inner" style="border-radius: 0">
         <div class="container">
-          <a class="brand" href="#">Game Maker</a>
+          <a class="brand" href="?page=welcome">Game Maker</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <?php if(signed_in()) { ?>

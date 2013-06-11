@@ -11,7 +11,7 @@ function only($array, $keys) {
   $result = [];
   foreach($array_keys as $array_key) {
     if(in_array($array_key, $keys))
-      $result[$key] = $array[$key];
+      $result[$array_key] = $array[$array_key];
   }
 
   return $result;
@@ -26,7 +26,7 @@ function except($array, $keys) {
   $result = [];
   foreach($array_keys as $array_key) {
     if(!in_array($array_key, $keys))
-      $result[$key] = $array[$key];
+      $result[$array_key] = $array[$array_key];
   }
 
   return $result;

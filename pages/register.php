@@ -83,8 +83,3 @@ function output_box() {
   ?>
 </div>
 </div>
-
-<!-- to jest syf, ale póki co zostanie :) :) -->
-<script type="text/javascript">
-	$('.setPopover').popover();
-</script>
