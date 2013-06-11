@@ -15,9 +15,9 @@ function get_game($game) {
 
   $db = user_database();
 
-  $stmt = $db->prepare('SELECT id_gry, gra.nazwa AS nazwa_gry, pytanie.* FROM gra
+  $stmt = $db->prepare('SELECT gra.nazwa AS nazwa_gry, pytanie.* FROM gra
                           JOIN pytanie USING(id_pytania)
-                          WHERE id_gry = :id');
+                          WHERE gra.id_gry = :id');
 
   $stmt->execute([':id' => $id]);
 
