@@ -4,6 +4,14 @@
 
   if(isSet($_GET['logout']))
     sign_out();
+
+  function menu_link($page_name, $name) {
+    if(isSet($_GET['page']) and $_GET['page'] == $page_name)
+      echo '<li class="active"><a href="?page=' . $page_name . '">' .
+              $name . '</li>';
+    else
+      echo '<li><a href="?page=' . $page_name .'">' . $name . '</li>';
+  }
 ?>
 <!doctype html>
 <html lang="pl">
@@ -25,11 +33,13 @@
           <a class="brand" href="?page=welcome">Game Maker</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <?php if(signed_in()) { ?>
-              <li><a href="?page=play">Zagraj</a></li>
-              <li><a href="?page=creator">Twórz</a></li>
-              <li><a href="?page=settings">Ustawienia</a></li>
-              <?php } ?>
+              <?php 
+              if(signed_in()) {
+                menu_link('play', 'Zagraj');
+                menu_link('creator', 'Twórz');
+                menu_link('settings', 'Ustawienia');
+              }
+              ?>
             </ul>
 						<?php if(signed_in()) { ?>
 						<li class="listNoneStyle pull-right navbar-text">
