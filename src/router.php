@@ -26,6 +26,6 @@ function get_page($default) {
 function redirect_to($page, $args) {
   $args['page'] = get_page($page);
   
-  header('Location: ' . ROOT . '/index.php?' . http_build_query($args));
+  header('Location: /' . ROOT . '/index.php?' . http_build_query($args));
 }
 ?>
