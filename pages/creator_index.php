@@ -34,8 +34,8 @@
             <a href="?page=creator&action=edit&gid=<?php echo $id; ?>" 
               class="btn btn-small btn-primary">Edytuj</a>&nbsp;
             <?php if($game['ranga'] == 'A') ?>
-            <a href="?page=creator&action=delete&gid=<?php echo $id; ?>"
-              class="btn btn-small btn-danger">Usuń</a>
+						<a href="actions/delete_game.php?gid=<?php echo $id; ?>"
+							class="btn btn-small btn-danger">Usuń</a>
           </td>
         </tr>
         <?php

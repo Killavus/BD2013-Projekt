@@ -47,4 +47,22 @@ function game_exists($name) {
 
   return $result > 0;
 }
+
+// usuwa grę o zadanym id. Zwraca true - jeśli usunie, false - jeśli nie ma takiej gry
+function game_delete($game_id) {
+	$game_id = (int)$game_id; // nie jestem pewna, czy mogę tak zrobić i czy to jest sensowne
+	
+	$db = creator_database();
+
+	$stmt = $db->prepare('SELECT * FROM gra WHERE id_gry = :id_gry');
+	$stmt->execute([':id_gry' => $game_id]);
+
+	$result = $stmt->fetchAll();
+	if($result === false) return false;
+
+	$stmt = $db->prepare('DELETE FROM gra WHERE id_gry = :id_gry');
+	$stmt->execute([':id_gry' => $game_id]);
+
+	return true;
+}
 ?>

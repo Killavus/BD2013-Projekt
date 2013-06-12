@@ -6,6 +6,7 @@ function page_whitelist() {
     'register',
     'creator',
     'play',
+		'settings',
     'welcome',
     'login'
   ];

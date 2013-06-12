@@ -41,12 +41,11 @@ function message_box(){
 					<div class="control-group">
 						<div class="controls">
 							<button type="submit" class="btn btn-primary"> Zaloguj </button>
+							lub
+							<a href="?page=register"> Zarejestruj się </a>
 						</div>
 					</div>
 				</form>
-			</div>
-			<div class="span6 offset3">
-				<p class="text-center"> Nie masz jeszcze konta? <a href="index.php?page=register" class="btn"> Zarejestruj się </a> </p>
 			</div>
 		</div>
 		<?php
