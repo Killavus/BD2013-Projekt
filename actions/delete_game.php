@@ -7,7 +7,7 @@ if(!isSet($_GET['gid']))
 
 $game_id = (int)$_GET['gid'];
 
-if(can_modify_game($game_id)) {
+if(is_game_admin($game_id)) {
 	if(!game_delete($game_id)) $success = false;
 	else $success = true;
 }

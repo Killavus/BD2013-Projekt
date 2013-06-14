@@ -1,6 +1,6 @@
 <?php
 /*
-To jest kod obliczający wartość wyrarzeń
+To jest kod obliczający wartość wyrażeń
 Trzeba jeszcze napisać funkcję do odczytu i zapisu zmiennych oraz operator przypisania i pewnie kilka innych pierdół.
 * 
 Dostępne operatory z priorytetami:
