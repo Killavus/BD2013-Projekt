@@ -83,10 +83,37 @@ function get_question_by_name($q_name,$game_id) {
 function add_question($question,$game_id,$user = null) {
 	$user_id = deduce_user_id($user);
 
+	$question['nazwa'] = htmlspecialchars($question['nazwa']);
+	$question['tekst'] = htmlspecialchars($question['tekst']);
+
 	$db = creator_database();
 	$stmt = $db->prepare('INSERT INTO pytanie(id_gry,id_uzytkownika,nazwa,tekst,stan,warunek)
 		VALUES(:id_gry,:id_uzytkownika,:nazwa,:text,:stan,:warunek)');
 	$stmt->execute([':id_gry' => $game_id, ':id_uzytkownika' => $user_id, ':nazwa' => $question['nazwa'],
 		':text' => $question['tekst'], ':stan' => $question['stan'], ':warunek' => $question['warunek']]);
+}
+
+function question_delete($q_id) {
+	$db = creator_database();
+
+	try {
+		$db->beginTransaction();
+
+		$del_ans_connections = $db->prepare('DELETE FROM pytanie_odpowiedz WHERE id_pytania = :id_pyt');
+		$del_ans_connections->execute([':id_pyt' => $q_id]);
+		$del_ans_connections->closeCursor();
+
+		$del_question = $db->prepare('DELETE FROM pytanie WHERE id_pytania = :id_pyt');
+		$del_question->execute([':id_pyt' => $q_id]);
+		$del_question->closeCursor();
+
+		$db->commit();
+	}
+	catch(PDOException $exc) {
+		$db->rollBack();
+		return $exc->getMessage();
+	}
+
+	return null;
 }
 ?>

@@ -16,7 +16,8 @@ function message() {
 			3 => "Treść nie może zawierać samych białych znaków",
 			4 => "Nie masz uprawnień do modyfikacji tej gry",
 			5 => "Pytanie o zadanej nazwie w tej grze już istnieje",
-			6 => "Odpowiedź o zadanej nazwie w tej grze już istnieje"
+			6 => "Odpowiedź o zadanej nazwie w tej grze już istnieje",
+			7 => "Do pytania prawdopodobnie istnieją dowiązania (pytanie startowe lub odpowiedź przenosi do niego)"
 		];
 		
 		$error_message = $errors[(int)$_GET['error']];
@@ -26,13 +27,17 @@ function message() {
 					</div>";
 	}
 	else if(isSet($_GET['success'])){
-		if($_GET['success'] == 1)
-			$text = "Pytanie zostało pomyślnie <strong>dodane</strong>";
-		else
-			$text = "Odpowiedź została pomyślnie <strong>dodana</strong>";
+		$success_m = [
+			1 => "Pytanie zostało pomyślnie <strong>dodane</strong>",
+			2 => "Odpowiedź została pomyślnie <strong>dodana</strong>",
+			3 => "Odpowiedź została pomyślnie <strong>usunięta</strong>",
+			4 => "Pytanie zostało pomyślnie <strong>usunięte</strong>"
+		];
+		
+		$succ_message = $success_m[(int)$_GET['success']];
 
 		echo "<div class='alert alert-success'>
-						<p class='text-center'> $text </p>
+						<p class='text-center'> $succ_message </p>
 					</div>";
 	}
 }
@@ -116,6 +121,11 @@ function message() {
               <a 
               href="?page=creator&action=edit_question&qid=<?php echo $id; ?>" 
               class="btn btn-primary btn-small">Edytuj</a>
+							<?php if($id != $primary_question_id) { ?>
+							<a href="actions/delete_question.php?qid=<?php echo $id; ?>&gid=<?php echo $game_id; ?>"
+								class="btn btn-danger btn-small">Usuń</a>
+							<?php
+							} ?>
             </td>
           </tr>
           <?php
@@ -220,6 +230,8 @@ function message() {
 						<td>
 							<a href="?page=creator&action=edit_answer&ans_id=<?php echo $id; ?>"
 								class="btn btn-primary btn-small">Edytuj</a>
+							<a href="actions/delete_answer.php?ans_id=<?php echo $id; ?>&gid=<?php echo $game_id; ?>"
+								class="btn btn-danger btn-small">Usuń</a>
 						</td>
 					</tr>
 					<?php

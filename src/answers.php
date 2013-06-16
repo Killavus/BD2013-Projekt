@@ -46,6 +46,9 @@ function get_answer_by_name($name,$game_id) {
 function add_answer($ans,$game_id) {
 	$db = creator_database();
 
+	$ans['nazwa'] = htmlspecialchars($ans['nazwa']);
+	$ans['tresc'] = htmlspecialchars($ans['tresc']);
+
 	try {
 		$db->beginTransaction();
 
@@ -70,6 +73,22 @@ function add_answer($ans,$game_id) {
 	}
 
 	return $ans_id;
+}
+
+function answer_delete($ans_id) {
+	$db = creator_database();
+
+	$stmt = $db->prepare('SELECT * FROM odpowiedz WHERE id_odpowiedzi = :id_ans');
+	$stmt->execute([':id_ans' => $ans_id]);
+	$result = $stmt->fetchAll();
+
+	if($result === false)
+		return false;
+
+	$stmt = $db->prepare('DELETE FROM odpowiedz WHERE id_odpowiedzi = :id_ans');
+	$stmt->execute([':id_ans' => $ans_id]);
+
+	return true;
 }
 
 ?>
