@@ -18,11 +18,10 @@ $questions = get_questions($game_id);
   <div class="row">
     <div class="span12">
       <h2>Pytania:</h2>
-      <!-- <p><a href="?page=creator&action=add_answer&gid=<?php echo $game_id; ?>" class="btn btn-success">Stwórz pytanie</a></p> -->
 			<button id="add_question_button" type="button" class="btn btn-success"> Stwórz pytanie </button>
 			<div id="add_question" style="display: none">
-				<form action="action/add_question.php" class="form-horizontal">
-				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px;">
+				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+				<form action="actions/add_question.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 					<div class="control-group">
 						<label class="control-label" for="nazwa"> Nazwa: </label>
 						<div class="controls">
@@ -58,8 +57,8 @@ $questions = get_questions($game_id);
 							<button type="submit" class="btn btn-primary"> Dodaj </button>
 						</div>
 					</div>
-				</div>
 				</form>
+				</div>
 			</div>
       <table class="table">
         <thead>
@@ -94,8 +93,62 @@ $questions = get_questions($game_id);
   <div class="row">
     <div class="span12">
       <h2>Odpowiedzi:</h2>
-      <p><a href="?page=creator&action=add_answer&gid=<?php echo $game_id; ?>" 
-        class="btn btn-success">Stwórz odpowiedź</a></p>
+			<button id="add_answer_button" class="btn btn-success" type="button"> Stwórz odpowiedź </button>
+			<div id="add_answer" style="display: none">
+				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+					<form action="actions/add_answer.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label" for="ans_nazwa"> Nazwa: </label>
+							<div class="controls">
+								<input id="ans_nazwa" type="text" name="nazwa" class="input-large" placeholder="Nazwa" tabindex=5 />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="select"> Do pytania: </label>
+							<div class="controls">
+								<select id="select" name="reference_question" tabindex=6>
+									<?php
+										foreach($questions as $quest){
+											$name = $quest['nazwa'];
+											$id = $quest['id_pytania'];
+											?>
+											<option value="<?php echo $id; ?>"> <?php echo $name; ?> </option>
+											<?php
+										}
+									?>
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="stan"> Stan: </label>
+							<div class="controls">
+								<input id="stan" type="text" name="stan" class="input-large" placeholder="Stan" tabindex=7 />
+								<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
+									data-content="Blah" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="ans_warunek"> Warunek: </label>
+							<div class="controls">
+								<input id="ans_warunek" type="text" name="warunek" class="input-large" placeholder="Warunek" tabindex=8 />
+								<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
+									data-content="Blah" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="answer"> Treść odpowiedzi: </label>
+							<div class="controls">
+								<textarea id="answer" rows="2" tabindex=9> </textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn btn-primary"> Dodaj </button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
     </div>
   </div>
 </div>
@@ -103,5 +156,9 @@ $questions = get_questions($game_id);
 <script type="text/javascript">
 	$("#add_question_button").click(function() {
 		$("#add_question").toggle(500);
+	});
+
+	$("#add_answer_button").click(function() {
+		$("#add_answer").toggle(500);
 	});
 </script>

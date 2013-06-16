@@ -20,22 +20,22 @@ function get_questions($game) {
 }
 
 function get_question($question) {
-  $id = deduce_question_id();
+  $id = deduce_question_id($question);
 
   $db = user_database();
 
-  $stmt = $db->prepare('SELECT id_pytania, 
-                               nazwa AS nazwa_pytania, 
-                               warunek AS warunek_pytania,
-                               stan AS stan_pytania,
-                               tekst AS tekst_pytania,
+  $stmt = $db->prepare('SELECT pytanie.id_pytania, 
+                               pytanie.nazwa AS nazwa_pytania, 
+                               pytanie.warunek AS warunek_pytania,
+                               pytanie.stan AS stan_pytania,
+                               pytanie.tekst AS tekst_pytania,
                                odpowiedz.*,
                                obrazek.*
                                FROM pytanie
                                JOIN obrazek USING(id_obrazka)
                                JOIN pytanie_odpowiedz USING(id_pytania)
                                JOIN odpowiedz USING(id_odpowiedzi)
-                               WHERE id_pytania = :id');
+                               WHERE pytanie.id_pytania = :id');
 
   $stmt->execute([':id' => $id]);
 
@@ -63,5 +63,30 @@ function get_question($question) {
   }
   $stmt->closeCursor();
   return $result_set;
+}
+
+// wyszukuje pytanie o zadanej nazwie w odpowiedniej grze (zakładam, że nazwy mogą się powtarzać, o ile są w różnych grach)
+function get_question_by_name($q_name,$game_id) {
+	$db = user_database();
+
+	$stmt = $db->prepare('SELECT * FROM pytanie WHERE nazwa = :q_name AND id_gry = :game_id');
+	$stmt->execute(['q_name' => $q_name, 'game_id' => $game_id]);
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+	if(count($result) < 1){
+		return null;
+	}
+	return $result;
+}
+
+function add_question($question,$game_id,$user = null) {
+	$user_id = deduce_user_id($user);
+
+	$db = creator_database();
+	$stmt = $db->prepare('INSERT INTO pytanie(id_gry,id_uzytkownika,nazwa,tekst,stan,warunek)
+		VALUES(:id_gry,:id_uzytkownika,:nazwa,:text,:stan,:warunek)');
+	$stmt->execute([':id_gry' => $game_id, ':id_uzytkownika' => $user_id, ':nazwa' => $question['nazwa'],
+		':text' => $question['tekst'], ':stan' => $question['stan'], ':warunek' => $question['warunek']]);
 }
 ?>
