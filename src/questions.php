@@ -70,9 +70,9 @@ function get_question_by_name($q_name,$game_id) {
 	$db = user_database();
 
 	$stmt = $db->prepare('SELECT * FROM pytanie WHERE nazwa = :q_name AND id_gry = :game_id');
-	$stmt->execute(['q_name' => $q_name, 'game_id' => $game_id]);
+	$stmt->execute([':q_name' => $q_name, ':game_id' => $game_id]);
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+	$stmt->closeCursor();
 
 	if(count($result) < 1){
 		return null;

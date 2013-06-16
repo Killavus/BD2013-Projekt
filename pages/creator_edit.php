@@ -5,6 +5,37 @@ $game_name = $game['gra']['nazwa_gry'];
 $primary_question_id = $game['pytanie']['id_pytania'];
 
 $questions = get_questions($game_id);
+$answers = get_answers($game_id);
+if($answers === null) $answers = [];
+
+function message() {
+	if(isSet($_GET['error'])) {
+		$errors = [
+			1 => "Należy podać nazwę i treść",
+			2 => "Nazwa nie może zawierać samych białych znaków",
+			3 => "Treść nie może zawierać samych białych znaków",
+			4 => "Nie masz uprawnień do modyfikacji tej gry",
+			5 => "Pytanie o zadanej nazwie w tej grze już istnieje",
+			6 => "Odpowiedź o zadanej nazwie w tej grze już istnieje"
+		];
+		
+		$error_message = $errors[(int)$_GET['error']];
+
+		echo "<div class='alert alert-error'>
+						<p class='text-center'> <strong>Błąd!</strong> $error_message </p>
+					</div>";
+	}
+	else if(isSet($_GET['success'])){
+		if($_GET['success'] == 1)
+			$text = "Pytanie zostało pomyślnie <strong>dodane</strong>";
+		else
+			$text = "Odpowiedź została pomyślnie <strong>dodana</strong>";
+
+		echo "<div class='alert alert-success'>
+						<p class='text-center'> $text </p>
+					</div>";
+	}
+}
 ?>
 <div class="container">
   <div class="row">
@@ -15,6 +46,11 @@ $questions = get_questions($game_id);
       <hr style="margin: 2em 0;" />
     </div>
   </div>
+	<div class="row">
+		<div class="span12">
+			<?php message() ?>
+		</div>
+	</div>
   <div class="row">
     <div class="span12">
       <h2>Pytania:</h2>
@@ -120,6 +156,25 @@ $questions = get_questions($game_id);
 							</div>
 						</div>
 						<div class="control-group">
+							<label class="control-label" for="select2"> Przenosi do: </label>
+							<div class="controls">
+								<select id="select2" name="forward_question">
+								<?php
+									foreach($questions as $quest) {
+										$name = $quest['nazwa'];
+										$id = $quest['id_pytania'];
+										?>
+										<option value="<?php echo $id; ?>"> <?php echo $name; ?> </option>
+										<?php
+									}
+								?>
+								</select>
+								<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
+									data-content="To pole określa, do którego pytania zostanie przekierowany użytkownik po wybraniu tej
+										odpowiedzi" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
+							</div>
+						</div>
+						<div class="control-group">
 							<label class="control-label" for="stan"> Stan: </label>
 							<div class="controls">
 								<input id="stan" type="text" name="stan" class="input-large" placeholder="Stan" tabindex=7 />
@@ -138,7 +193,7 @@ $questions = get_questions($game_id);
 						<div class="control-group">
 							<label class="control-label" for="answer"> Treść odpowiedzi: </label>
 							<div class="controls">
-								<textarea id="answer" rows="2" tabindex=9> </textarea>
+								<textarea id="answer" name="tresc" rows="2" tabindex=9> </textarea>
 							</div>
 						</div>
 						<div class="control-group">
@@ -149,6 +204,29 @@ $questions = get_questions($game_id);
 					</form>
 				</div>
 			</div>
+			<table class="table" style="margin-bottom: 70px">
+				<thead>
+					<th>Nazwa</th>
+					<th>Akcje</th>
+				</thead>
+				<tbody>
+				<?php
+				foreach($answers as $ans) {
+					$name = $ans['nazwa'];
+					$id = $ans['id_odpowiedzi'];
+					?>
+					<tr>
+						<td><strong><?php echo $name; ?></strong></td>
+						<td>
+							<a href="?page=creator&action=edit_answer&ans_id=<?php echo $id; ?>"
+								class="btn btn-primary btn-small">Edytuj</a>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</tbody>
+			</table>
     </div>
   </div>
 </div>

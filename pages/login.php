@@ -10,7 +10,7 @@ function message_box(){
 		$error_code = $error_codes[(int)$_GET['error']];
 
 		echo "<div class='alert alert-error'>
-						<p class='text-center'><strong>Błąd!</strong>$error_code</p>
+						<p class='text-center'><strong>Błąd!</strong> $error_code </p>
 					</div>";
 	}
 }
