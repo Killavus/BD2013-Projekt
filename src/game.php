@@ -65,4 +65,12 @@ function game_delete($game_id) {
 
 	return true;
 }
+
+function change_primary_question($game_id, $question_id) {
+	$db = creator_database();
+
+	$stmt = $db->prepare('UPDATE gra SET id_pytania = :id_pyt WHERE id_gry = :id_gry');
+	$stmt->execute([':id_pyt' => $question_id, ':id_gry' => $game_id]);
+	$stmt->closeCursor();
+}
 ?>

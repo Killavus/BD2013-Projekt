@@ -17,7 +17,8 @@ function message() {
 			4 => "Nie masz uprawnień do modyfikacji tej gry",
 			5 => "Pytanie o zadanej nazwie w tej grze już istnieje",
 			6 => "Odpowiedź o zadanej nazwie w tej grze już istnieje",
-			7 => "Do pytania prawdopodobnie istnieją dowiązania (pytanie startowe lub odpowiedź przenosi do niego)"
+			7 => "Do pytania prawdopodobnie istnieją dowiązania (pytanie startowe lub odpowiedź przenosi do niego)",
+			8 => "Pytanie o podanym id w tej grze nie istnieje"
 		];
 		
 		$error_message = $errors[(int)$_GET['error']];
@@ -31,7 +32,8 @@ function message() {
 			1 => "Pytanie zostało pomyślnie <strong>dodane</strong>",
 			2 => "Odpowiedź została pomyślnie <strong>dodana</strong>",
 			3 => "Odpowiedź została pomyślnie <strong>usunięta</strong>",
-			4 => "Pytanie zostało pomyślnie <strong>usunięte</strong>"
+			4 => "Pytanie zostało pomyślnie <strong>usunięte</strong>",
+			5 => "Ustawiono podane pytanie jako startowe"
 		];
 		
 		$succ_message = $success_m[(int)$_GET['success']];
@@ -46,8 +48,26 @@ function message() {
   <div class="row">
     <div class="span12">
       <h1 style="margin-bottom: 18px;">Edycja gry &ldquo;<?php echo $game_name; ?>&rdquo;</h1>
-      <p><a href="?page=creator&action=set_primary&gid=<?php echo $game_id; ?>" 
-        class="btn btn-primary">Ustal pytanie startowe</a> lub <a href="?page=creator">powróć na stronę główną</a>.</p>
+      <p><a href="#" id="set_primary_button" class="btn btn-primary">Ustal pytanie startowe</a>
+			lub <a href="?page=creator">powróć na stronę główną</a>.</p>
+			<div id="set_primary" style="display:none">
+				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+					<form class="form-inline" action="actions/game_set_primary.php?gid=<?php echo $game_id; ?>" method="post">
+						<select name="primary">
+						<?php
+						foreach($questions as $quest) {
+							$name = $quest['nazwa'];
+							$id = $quest['id_pytania'];
+							?>
+							<option value="<?php echo $id; ?>"> <?php echo $name; ?></option>
+							<?php
+						}
+						?>
+						</select>
+						<button type="submit" class="btn btn-inverse">Ustaw</button>
+					</form>
+				</div>
+			</div>
       <hr style="margin: 2em 0;" />
     </div>
   </div>
@@ -141,7 +161,7 @@ function message() {
       <h2>Odpowiedzi:</h2>
 			<button id="add_answer_button" class="btn btn-success" type="button"> Stwórz odpowiedź </button>
 			<div id="add_answer" style="display: none">
-				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+				<div style="border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
 					<form action="actions/add_answer.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 						<div class="control-group">
 							<label class="control-label" for="ans_nazwa"> Nazwa: </label>
@@ -250,5 +270,9 @@ function message() {
 
 	$("#add_answer_button").click(function() {
 		$("#add_answer").toggle(500);
+	});
+
+	$("#set_primary_button").click(function() {
+		$("#set_primary").toggle(350);
 	});
 </script>
