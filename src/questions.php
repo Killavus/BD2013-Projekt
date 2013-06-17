@@ -32,9 +32,9 @@ function get_question($question) {
                                odpowiedz.*,
                                obrazek.*
                                FROM pytanie
-                               JOIN obrazek USING(id_obrazka)
-                               JOIN pytanie_odpowiedz USING(id_pytania)
-                               JOIN odpowiedz USING(id_odpowiedzi)
+                               LEFT JOIN obrazek USING(id_obrazka)
+                               LEFT JOIN pytanie_odpowiedz USING(id_pytania)
+                               LEFT JOIN odpowiedz USING(id_odpowiedzi)
                                WHERE pytanie.id_pytania = :id');
 
   $stmt->execute([':id' => $id]);
@@ -55,11 +55,13 @@ function get_question($question) {
   $result_set['pytanie']['alt'] = $data_set[0]['alt'];
 
   foreach($data_set as $row) {
-    $result_set['odpowiedzi'][] = only($row, ['id_odpowiedzi', 
-                                              'nazwa',
-                                              'tekst',
-                                              'warunek',
-                                              'stan']);
+		if($row['id_odpowiedzi'] !== null) {
+    	$result_set['odpowiedzi'][] = only($row, ['id_odpowiedzi', 
+                                              	'nazwa',
+                                              	'tekst',
+                                              	'warunek',
+                                              	'stan']);
+		}
   }
   $stmt->closeCursor();
   return $result_set;

@@ -139,7 +139,7 @@ function message() {
             <td><strong><?php echo $name; ?></strong></td>
             <td>
               <a 
-              href="?page=creator&action=edit_question&qid=<?php echo $id; ?>" 
+              href="?page=creator&action=edit_component&qid=<?php echo $id; ?>" 
               class="btn btn-primary btn-small">Edytuj</a>
 							<?php if($id != $primary_question_id) { ?>
 							<a href="actions/delete_question.php?qid=<?php echo $id; ?>&gid=<?php echo $game_id; ?>"
@@ -248,7 +248,7 @@ function message() {
 					<tr>
 						<td><strong><?php echo $name; ?></strong></td>
 						<td>
-							<a href="?page=creator&action=edit_answer&ans_id=<?php echo $id; ?>"
+							<a href="?page=creator&action=edit_component&ans_id=<?php echo $id; ?>"
 								class="btn btn-primary btn-small">Edytuj</a>
 							<a href="actions/delete_answer.php?ans_id=<?php echo $id; ?>&gid=<?php echo $game_id; ?>"
 								class="btn btn-danger btn-small">Usuń</a>

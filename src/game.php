@@ -73,4 +73,28 @@ function change_primary_question($game_id, $question_id) {
 	$stmt->execute([':id_pyt' => $question_id, ':id_gry' => $game_id]);
 	$stmt->closeCursor();
 }
+
+// funkcja zwracająca id gry na podstawie id pytania bądź id odpowiedzi
+function get_game_id($id,$base) { // base = 'P' (pytanie) lub 'O' (odpowiedź)
+	$db = user_database();
+	$result = null;
+
+	if($base == 'P'){
+		$stmt = $db->prepare('SELECT id_gry FROM pytanie WHERE id_pytania = :id_pyt');
+		$stmt->execute([':id_pyt' => $id]);
+		$result = $stmt->fetchColumn();
+		$stmt->closeCursor();
+	}
+	else {
+		$stmt = $db->prepare('SELECT id_gry FROM odpowiedz
+			JOIN pytanie_odpowiedz AS p_o USING(id_odpowiedzi)
+			JOIN pytanie ON pytanie.id_pytania = p_o.id_pytania
+			WHERE id_odpowiedzi = :id_odp');
+		$stmt->execute([':id_odp' => $id]);
+		$result = $stmt->fetchColumn();
+		$stmt->closeCursor();
+	}
+
+	return $result;
+}
 ?>
