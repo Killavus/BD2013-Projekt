@@ -6,14 +6,14 @@ function get_answers($game_id,$question_id = null) {
 	$db = user_database();
 	
 	if($question_id === null) {
-		$stmt = $db->prepare('SELECT odpowiedz.* FROM odpowiedz
+		$stmt = $db->prepare('SELECT DISTINCT odpowiedz.* FROM odpowiedz
 			JOIN pytanie_odpowiedz AS p_o USING(id_odpowiedzi)
 			JOIN pytanie ON p_o.id_pytania=pytanie.id_pytania
 			WHERE id_gry = :id_gry');
 		$stmt->execute([':id_gry' => $game_id]);
 	}
 	else {
-		$stmt = $db->prepare('SELECT odpowiedz.* FROM odpowiedz
+		$stmt = $db->prepare('SELECT DISTINCT odpowiedz.* FROM odpowiedz
 			JOIN pytanie_odpowiedz AS p_o USING(id_odpowiedzi)
 			JOIN pytanie ON p_o.id_pytania=pytanie.id_pytania
 			WHERE id_gry = :id_gry AND id_pytania = :id_pyt');
@@ -89,6 +89,23 @@ function answer_delete($ans_id) {
 	$stmt->execute([':id_ans' => $ans_id]);
 
 	return true;
+}
+
+function delete_ans_question($qid,$ans_id) {
+	$db = creator_database();
+
+	$stmt = $db->prepare('DELETE FROM pytanie_odpowiedz WHERE id_pytania = :id_pyt AND id_odpowiedzi = :id_odp');
+	$stmt->execute([':id_pyt' => $qid, ':id_odp' => $ans_id]);
+	$stmt->closeCursor();
+}
+
+function add_ans_question($qid,$ans_id) {
+	$db = creator_database();
+
+	$stmt = $db->prepare('INSERT INTO pytanie_odpowiedz(id_pytania,id_odpowiedzi)
+		VALUES(:id_pyt,:id_odp)');
+	$stmt->execute([':id_pyt' => $qid, ':id_odp' => $ans_id]);
+	$stmt->closeCursor();
 }
 
 ?>

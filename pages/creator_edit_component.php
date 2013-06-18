@@ -1,5 +1,31 @@
 <?php
 
+function message(){
+	if(isSet($_GET['error'])) {
+		$errors = [
+			1 => "Nie masz uprawnień do modyfikacji tej gry"
+		];
+
+		$text = $errors[(int)$_GET['error']];
+
+		echo "<div class='alert alert-error'>
+						<p class='text-center'> <strong>Błąd!</strong> $text </p>
+					</div>";
+	}
+	else if(isSet($_GET['success'])) {
+		$success = [
+			1 => "Pomyślnie <strong>usunięto</strong> powiązanie",
+			2 => "Pomyślnie <strong>dodano</strong> powiązanie"
+		];
+
+		$text = $success[(int)$_GET['success']];
+
+		echo "<div class='alert alert-success'>
+						<p class='text-center'> $text </p>
+					</div> ";
+	}
+}
+
 if(!isSet($_GET['qid']) and !isSet($_GET['ans_id']))
 	die("Musisz podać id pytania albo id odpowiedzi");
 
@@ -8,16 +34,21 @@ $id = $what == 'P' ? (int)$_GET['qid'] : (int)$_GET['ans_id'];
 $game_id = get_game_id($id,$what);
 $questions = get_questions($game_id);
 $quest = $what == 'P' ? get_question($id) : null;
+$answers_in_game = get_answers($game_id);
 //$answer = $what == 'O' ? get_answer($id) : null;
 
 ?>
 
 <div class="container">
 	<div class="page-header">
-		<h3>Edycja <?php echo $what == 'P' ? "pytania <i>\"".$quest['pytanie']['nazwa']."\"</i>" : "odpowiedzi "; ?></h3>
+		<h3>
+			Edycja <?php echo $what == 'P' ? "pytania <i>\"".$quest['pytanie']['nazwa']."\"</i>" : "odpowiedzi "; ?>
+			<small> <a href="?page=creator&action=edit&gid=<?php echo $game_id; ?>">powrót</a> </small>
+		</h3>
 	</div>
+	<?php message(); ?>
 	<?php if($what == 'P') { ?>
-		<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+		<div class="radius_border">
 			<form action="actions/question_update.php" method="post" class="form-horizontal">
 				<div class="control-group">
 					<label class="control-label" for="nazwa"> Nazwa: </label>
@@ -40,7 +71,7 @@ $quest = $what == 'P' ? get_question($id) : null;
 				<div class="control-group">
 					<label class="control-label" for="tekst"> Treść: </label>
 					<div class="controls">
-						<textarea id="tekst" name="tekst" rows="4"> <?php echo $quest['pytanie']['tekst']; ?> </textarea>
+						<textarea id="tekst" name="tekst" rows="4"><?php echo $quest['pytanie']['tekst']; ?></textarea>
 					</div>
 				</div>
 				<div class="control-group">
@@ -78,6 +109,23 @@ $quest = $what == 'P' ? get_question($id) : null;
 					} ?>
 				</tbody>
 			</table>
+		</div>
+		<div class="radius_border" style="float: right">
+			<form action="actions/add_ans_quest.php?qid=<?php echo $id; ?>" class="form-inline" method="post">
+				Podepnij odpowiedź:
+				<select name="answer">
+					<?php
+						foreach($answers_in_game as $answer) {
+							$id = $answer['id_odpowiedzi'];
+							$name = $answer['nazwa'];
+							?>
+							<option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+							<?php
+						}
+					?>
+				</select>
+				<button class="btn btn-inverse" type="submit"> Podepnij </button>
+			</form>
 		</div>
 	<?php
 	}

@@ -51,7 +51,7 @@ function message() {
       <p><a href="#" id="set_primary_button" class="btn btn-primary">Ustal pytanie startowe</a>
 			lub <a href="?page=creator">powróć na stronę główną</a>.</p>
 			<div id="set_primary" style="display:none">
-				<div style="margin: 5px; padding: 10px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+				<div class="radius_border">
 					<form class="form-inline" action="actions/game_set_primary.php?gid=<?php echo $game_id; ?>" method="post">
 						<select name="primary">
 						<?php
@@ -81,7 +81,7 @@ function message() {
       <h2>Pytania:</h2>
 			<button id="add_question_button" type="button" class="btn btn-success"> Stwórz pytanie </button>
 			<div id="add_question" style="display: none">
-				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+				<div class="radius_border">
 				<form action="actions/add_question.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 					<div class="control-group">
 						<label class="control-label" for="nazwa"> Nazwa: </label>
@@ -110,7 +110,7 @@ function message() {
 					<div class="control-group">
 						<label class="control-label" for="tresc"> Treść: </label>
 						<div class="controls">
-							<textarea id="tresc" name="tekst" rows="4" tabindex=4 > </textarea>
+							<textarea id="tresc" name="tekst" rows="4" tabindex=4 ></textarea>
 						</div>
 					</div>
 					<div class="control-group">
@@ -161,7 +161,7 @@ function message() {
       <h2>Odpowiedzi:</h2>
 			<button id="add_answer_button" class="btn btn-success" type="button"> Stwórz odpowiedź </button>
 			<div id="add_answer" style="display: none">
-				<div style="margin: 10px; padding: 20px; border: 1px solid skyblue; -moz-border-radius: 10px; border-radius: 10px; -webkit-border-radius: 10px">
+				<div class="radius_border">
 					<form action="actions/add_answer.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 						<div class="control-group">
 							<label class="control-label" for="ans_nazwa"> Nazwa: </label>
@@ -223,7 +223,7 @@ function message() {
 						<div class="control-group">
 							<label class="control-label" for="answer"> Treść odpowiedzi: </label>
 							<div class="controls">
-								<textarea id="answer" name="tresc" rows="2" tabindex=9> </textarea>
+								<textarea id="answer" name="tresc" rows="2" tabindex=9></textarea>
 							</div>
 						</div>
 						<div class="control-group">
