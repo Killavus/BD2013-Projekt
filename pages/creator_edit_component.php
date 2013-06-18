@@ -3,7 +3,11 @@
 function message(){
 	if(isSet($_GET['error'])) {
 		$errors = [
-			1 => "Nie masz uprawnień do modyfikacji tej gry"
+			1 => "Nie masz uprawnień do modyfikacji tej gry",
+			2 => "Nazwa i treść pytania nie mogą być puste",
+			3 => "Nazwa nie może składać się z samych białych znaków",
+			4 => "Treść nie może składać się z samych białych znaków",
+			5 => "Nazwa i treść odpowiedzi nie mogą być puste"
 		];
 
 		$text = $errors[(int)$_GET['error']];
@@ -15,7 +19,9 @@ function message(){
 	else if(isSet($_GET['success'])) {
 		$success = [
 			1 => "Pomyślnie <strong>usunięto</strong> powiązanie",
-			2 => "Pomyślnie <strong>dodano</strong> powiązanie"
+			2 => "Pomyślnie <strong>dodano</strong> powiązanie",
+			3 => "<strong>Zaktualizowano</strong> dane pytania",
+			4 => "<strong>Zaktualizowano</strong> dane odpowiedzi"
 		];
 
 		$text = $success[(int)$_GET['success']];
@@ -24,6 +30,13 @@ function message(){
 						<p class='text-center'> $text </p>
 					</div> ";
 	}
+}
+
+function referenced($ans_id,$ans) {
+	foreach($ans as $answer)
+		if($answer['id_odpowiedzi'] === $ans_id)
+			return true;
+	return false;
 }
 
 if(!isSet($_GET['qid']) and !isSet($_GET['ans_id']))
@@ -35,7 +48,7 @@ $game_id = get_game_id($id,$what);
 $questions = get_questions($game_id);
 $quest = $what == 'P' ? get_question($id) : null;
 $answers_in_game = get_answers($game_id);
-//$answer = $what == 'O' ? get_answer($id) : null;
+$answer = $what == 'O' ? get_answer($id) : null;
 
 ?>
 
@@ -49,7 +62,7 @@ $answers_in_game = get_answers($game_id);
 	<?php message(); ?>
 	<?php if($what == 'P') { ?>
 		<div class="radius_border">
-			<form action="actions/question_update.php" method="post" class="form-horizontal">
+			<form action="actions/question_update.php?qid=<?php echo $id; ?>" method="post" class="form-horizontal">
 				<div class="control-group">
 					<label class="control-label" for="nazwa"> Nazwa: </label>
 					<div class="controls">
@@ -116,10 +129,11 @@ $answers_in_game = get_answers($game_id);
 				<select name="answer">
 					<?php
 						foreach($answers_in_game as $answer) {
-							$id = $answer['id_odpowiedzi'];
+							$id_ans = $answer['id_odpowiedzi'];
 							$name = $answer['nazwa'];
+							if(referenced($id_ans,$quest['odpowiedzi'])) continue;
 							?>
-							<option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+							<option value="<?php echo $id_ans; ?>"><?php echo $name; ?></option>
 							<?php
 						}
 					?>
@@ -130,7 +144,61 @@ $answers_in_game = get_answers($game_id);
 	<?php
 	}
 	else { ?>
-
+		<div class="radius_border">
+			<form action="actions/answer_update.php?ans_id=<?php echo $id; ?>" method="post" class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="ans_nazwa">Nazwa:</label>
+					<div class="controls">
+						<input id="ans_nazwa" name="nazwa" type="text" value="<?php echo $answer['nazwa']; ?>" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="ans_reference">Przenosi do:</label>
+					<div class="controls">
+						<select name="id_pytania">
+							<?php
+							foreach($questions as $q) {
+								$q_id = $q['id_pytania'];
+								$q_nazwa = $q['nazwa'];
+								?>
+								<option value="<?php echo $q_id; ?>"
+									<?php if($q_id === $answer['id_pytania']) echo "selected='selected'"; ?>>
+									<?php echo $q_nazwa; ?>
+								</option>
+								<?php
+							}
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="ans_stan">Stan:</label>
+					<div class="controls">
+						<input id="ans_stan" type="text" name="stan" value="<?php echo $answer['stan']; ?>" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="ans_warunek">Warunek:</label>
+					<div class="controls">
+						<input id="ans_warunek" type="text" name="warunek" value="<?php echo $answer['warunek']; ?>" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="ans_tekst">Treść:</label>
+					<div class="controls">
+						<textarea id="ans_tekst" name="tekst" cols=3><?php echo $answer['tekst']; ?></textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn btn-primary">Zapisz</button>
+					</div>
+				</div>
+			</form>
+		</div>
 	<?php
+	//print_r($answer);
+	//echo "<br />";
+	//print_r($questions);
 	} ?>
 </div>

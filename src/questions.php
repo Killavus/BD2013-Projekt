@@ -118,4 +118,16 @@ function question_delete($q_id) {
 
 	return null;
 }
+
+function update_question($new) {
+	$db = creator_database();
+
+	$new['nazwa'] = htmlspecialchars($new['nazwa']);
+	$new['tekst'] = htmlspecialchars($new['tekst']);
+
+	$stmt = $db->prepare('UPDATE pytanie SET (nazwa,stan,tekst,warunek) = (:nazwa,:stan,:tekst,:warunek) WHERE id_pytania = :id_pyt');
+	$stmt->execute([':id_pyt' => $new['id_pytania'], ':nazwa' => $new['nazwa'],
+		':stan' => $new['stan'], ':tekst' => $new['tekst'], ':warunek' => $new['warunek']]);
+	$stmt->closeCursor();
+}
 ?>

@@ -29,6 +29,17 @@ function get_answers($game_id,$question_id = null) {
 	return $result;
 }
 
+function get_answer($id) {
+	$db = user_database();
+
+	$stmt = $db->prepare('SELECT * FROM odpowiedz WHERE id_odpowiedzi = :id');
+	$stmt->execute([':id' => $id]);
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$stmt->closeCursor();
+
+	return $result[0];
+}
+
 function get_answer_by_name($name,$game_id) {
 	$db = user_database();
 	$stmt = $db->prepare('SELECT odpowiedz.* FROM odpowiedz
@@ -89,6 +100,19 @@ function answer_delete($ans_id) {
 	$stmt->execute([':id_ans' => $ans_id]);
 
 	return true;
+}
+
+function update_answer($ans) {
+	$db = creator_database();
+
+	$ans['nazwa'] = htmlspecialchars($ans['nazwa']);
+	$ans['tekst'] = htmlspecialchars($ans['tekst']);
+
+	$stmt = $db->prepare('UPDATE odpowiedz SET (id_pytania,nazwa,tekst,warunek,stan)
+		= (:id_pyt,:nazwa,:tekst,:warunek,:stan) WHERE id_odpowiedzi = :id');
+	$stmt->execute([':id' => $ans['id'], ':id_pyt' => $ans['id_pytania'], ':nazwa' => $ans['nazwa'],
+		':tekst' => $ans['tekst'], ':warunek' => $ans['warunek'], ':stan' => $ans['stan']]);
+	$stmt->closeCursor();
 }
 
 function delete_ans_question($qid,$ans_id) {
