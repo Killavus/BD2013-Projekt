@@ -140,7 +140,9 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
       }
       else
       {
-        return 0; //tu będzie funkcja która pobiera zmienną
+        if($str=='true') return intval(1);
+        elseif($str=='false') return intval(0);
+        else return 0; //tu będzie funkcja która pobiera zmienną
       }
     }
     break;
@@ -214,7 +216,11 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
 
 //$str='(5+(1243-43)*3)*(2+2*2)';
 
-$str='(43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
+//$str='true!=false';
+
+//$str='(43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
+
+
 try
 {
   $out=calculate($str);
