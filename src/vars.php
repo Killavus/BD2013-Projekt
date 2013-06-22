@@ -44,10 +44,10 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
     {
       
       $checkop='$out=(($str[$i]==\'&\') || 
-                    ($str[$i]==\'|\') ||
-                    ($str[$i]==\'^\'));';
+                     ($str[$i]==\'|\') ||
+                     ($str[$i]==\'^\'));';
       $setopandlast='$op=$str[$i];
-                 $last=$i+1;';
+                     $last=$i+1;';
       $calculate='if($op==\'&\')
                   $value=($value & calculate_ex($str, $last, $i-1, $level+1));
                   elseif($op==\'|\')
