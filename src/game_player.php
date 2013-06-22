@@ -17,14 +17,16 @@ function begin_game($game_id)
 	try {
 		$db->beginTransaction();
 		$sesion_insert = $db->prepare("INSERT INTO sesja(id_uzytkownika, 
-														 id_gry, 
-														 id_pytania) 
-												  VALUES(:id_uzytkownika, 
-														 :id_gry,
-														 :id_pytania) 
-									   RETURNING id_sesji");
+													                        	 id_gry, 
+														                         id_pytania) 
+												           VALUES(:id_uzytkownika, 
+                                          :id_gry,
+														              :id_pytania) 
+							               		   RETURNING id_sesji");
 	 
-		$sesion_insert->execute([':id_uzytkownika' => $user_id, ':id_gry' => $game_id, ':id_pytania' => $question_id]);
+		$sesion_insert->execute([':id_uzytkownika' => $user_id, 
+                             ':id_gry' => $game_id,
+                             ':id_pytania' => $question_id]);
 		
 		$sesion_id = $sesion_insert->fetchColumn();
 		
