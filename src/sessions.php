@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['g_id_session'] = null;
+$GLOBALS['g_session_id'] = null;
 
 //zaczyna grę i zwaca id jej sesji
 function begin_game($game_id)
@@ -33,10 +33,10 @@ function begin_game($game_id)
   catch(PDOException $pdo) {
   echo $pdo->getMessage();
   $db->rollBack();
-  $GLOBALS['g_id_session']=null;
+  $GLOBALS['g_session_id']=null;
   return null;
   }
-  $GLOBALS['g_id_session']=$sesion_id;
+  $GLOBALS['g_session_id']=$sesion_id;
   return $sesion_id;
 }
 
@@ -60,6 +60,19 @@ function get_session($session_id) {
     return null;
 
   return $result;
+}
+
+function get_current_session_id()
+{
+  global $g_session_id;
+  return $g_session_id;
+}
+
+function get_current_session()
+{
+  $session_id=get_current_session_id();
+  if($session_id === null) return null;
+  return get_session($session_id);
 }
 
 ?>
