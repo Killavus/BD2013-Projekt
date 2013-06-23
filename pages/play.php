@@ -3,4 +3,5 @@
   //testowanie zaczynania gry
   begin_game(1);
   print continue_game(1);
+  print get_current_session_id();
 ?>

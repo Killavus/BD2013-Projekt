@@ -42,7 +42,7 @@ function begin_game($game_id)
                              ':id_gry' => $game_id,
                              ':id_pytania' => $question_id]);
     
-    $sesion_id = $sesion_insert->fetchColumn();
+    $session_id = $sesion_insert->fetchColumn();
     
     $db->commit();
   }
@@ -52,8 +52,9 @@ function begin_game($game_id)
   $GLOBALS['g_session_id']=null;
   return null;
   }
-  $GLOBALS['g_session_id']=$sesion_id;
-  return $sesion_id;
+  $GLOBALS['g_session_id']=$session_id;
+  update_current_session($session_id);
+  return $session_id;
 }
 
 //kontynuuje gre - zwraca id sesji zaczętej wcześniej gry
@@ -72,7 +73,7 @@ function continue_game($game_id)
     $sesion_insert->execute([':id_uzytkownika' => $user_id, 
                              ':id_gry' => $game_id]);
     
-    $sesion_id = $sesion_insert->fetchColumn();
+    $session_id = $sesion_insert->fetchColumn();
     
     $db->commit();
   }
@@ -82,8 +83,27 @@ function continue_game($game_id)
   $GLOBALS['g_session_id']=null;
   return null;
   }
-  $GLOBALS['g_session_id']=$sesion_id;
-  return $sesion_id;
+  $GLOBALS['g_session_id']=$session_id;
+  update_current_session($session_id);
+  return $session_id;
+}
+
+function update_current_session($session_id)
+{
+  try {
+    $db = user_database();
+    $db->beginTransaction();
+    $sesion_update = $db->prepare("UPDATE klucz_przegladarki SET aktualna_sesja=:sesja");
+   
+    $sesion_update->execute([':sesja' => $session_id]);
+    
+    $db->commit();
+  }
+  catch(PDOException $pdo) {
+  echo $pdo->getMessage();
+  $db->rollBack();
+  return null;
+  }
 }
 
 //zwraca sesje na podstawie jej id
@@ -111,7 +131,30 @@ function get_session($session_id) {
 function get_current_session_id()
 {
   global $g_session_id;
-  //
+  if($q_session_id === null)
+  {
+    $user_id=deduce_user_id(current_user());
+    $db = user_database();
+  
+    try {
+      $db->beginTransaction();
+      $sesion_insert = $db->prepare("SELECT aktualna_sesja FROM klucz_przegladarki 
+                                     WHERE id_uzytkownika=:id_uzytkownika");
+     
+      $sesion_insert->execute([':id_uzytkownika' => $user_id]);
+      
+      $session_id = $sesion_insert->fetchColumn();
+      
+      $db->commit();
+    }
+    catch(PDOException $pdo) {
+    echo $pdo->getMessage();
+    $db->rollBack();
+    $GLOBALS['g_session_id']=null;
+    return null;
+    }
+    $g_session_id=$session_id;
+  }
   return $g_session_id;
 }
 
