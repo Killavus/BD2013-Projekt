@@ -101,6 +101,20 @@ CREATE TABLE klucz_przegladarki (
   CONSTRAINT klucz_przegladarki_id_uzytkownika_fk FOREIGN KEY (id_uzytkownika) REFERENCES uzytkownik ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE OR REPLACE FUNCTION usun_niepodpiete() RETURNS TRIGGER AS
+$$
+BEGIN
+	DELETE FROM odpowiedz WHERE id_odpowiedzi NOT IN (
+		SELECT id_odpowiedzi FROM pytanie_odpowiedz
+	);
+	RETURN OLD;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER usun_odp AFTER DELETE ON pytanie_odpowiedz
+	EXECUTE PROCEDURE usun_niepodpiete();
+
 -- Odpowiednie GRANTy dla użytkowników:
 -- Zakładam, że twórca gry to rola bd2013_creator, a użytkownik - bd2013_user.
 -- GRANT SELECT ON TABLE gra, klucz_przegladarki, obrazek, odpowiedz, pytanie, pytanie_odpowiedz, sesja, srodowisko, uprawnienie, uzytkownik TO bd2013_creator;

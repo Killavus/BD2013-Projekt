@@ -55,7 +55,7 @@ $answer = $what == 'O' ? get_answer($id) : null;
 <div class="container">
 	<div class="page-header">
 		<h3>
-			Edycja <?php echo $what == 'P' ? "pytania <i>\"".$quest['pytanie']['nazwa']."\"</i>" : "odpowiedzi "; ?>
+			Edycja <?php echo $what == 'P' ? "pytania <i>\"".$quest['pytanie']['nazwa']."\"</i>" : "odpowiedzi <i>\"".$answer['nazwa']."\"</i>"; ?>
 			<small> <a href="?page=creator&action=edit&gid=<?php echo $game_id; ?>">powrót</a> </small>
 		</h3>
 	</div>
@@ -197,8 +197,5 @@ $answer = $what == 'O' ? get_answer($id) : null;
 			</form>
 		</div>
 	<?php
-	//print_r($answer);
-	//echo "<br />";
-	//print_r($questions);
 	} ?>
 </div>
