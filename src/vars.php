@@ -4,6 +4,7 @@ To jest kod obliczający wartość wyrażeń
 Trzeba jeszcze napisać funkcję do odczytu i zapisu zmiennych oraz operator przypisania i pewnie kilka innych pierdół.
 * 
 Dostępne operatory z priorytetami:
+6. !,~,-,+
 5. *,/,%
 4. +,-
 3. <,<=,>,>=
@@ -13,15 +14,21 @@ Dostępne operatory z priorytetami:
 */
 function calculate($str)
 {
-  $str=preg_replace('/\s+/', '', $str);
   return calculate_ex($str, 0, strlen($str)-1, 0);
 }
 function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
 {
   //print substr($str, $from, $to-$from+1).' '.$from.' '.$to.' '.$level."\n";
+  
+  if(in_array($str[$from], ['*', '/', '%', '^', '<', '>', '=', '&', '|']) || ($str[$from]=='!' && $str[$from+1]=='='))
+    throw new Exception('op_at_beginning');
+  if(in_array($str[$to], ['*', '/', '%', '+', '-', '^', '<', '>', '=', '!', '&', '|'])) 
+    throw new Exception('op_at_end');
+  
+  while(in_array($str[$from], [' ', "\n". "\t"])) ++$from;
+  while(in_array($str[$to], [' ', "\n". "\t"])) --$to;
+  
   if($to<$from) throw new Exception('other_error');
-  if(in_array($str[$from], ['*', '/', '%', '+', '-', '^', '<', '>', '=', '!', '&', '|'])) throw new Exception('op_at_beginning');
-  if(in_array($str[$to], ['*', '/', '%', '+', '-', '^', '<', '>', '=', '!', '&', '|'])) throw new Exception('op_at_end');
   
   $checkop=''; $setopandlast=''; $calculate='';
   
@@ -125,12 +132,20 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
     break;
     case 6:
     {
+      if($str[$from]=='!') return !calculate_ex($str, $from+1, $to, $level+1);
+      elseif($str[$from]=='~') return ~calculate_ex($str, $from+1, $to, $level+1);
+      elseif($str[$from]=='-') return -calculate_ex($str, $from+1, $to, $level+1);
+      elseif($str[$from]=='+') return calculate_ex($str, $from+1, $to, $level+1);
+      
+    }
+    case 7:
+    {
       if($str[$from]=='(' && $str[$to]==')') return calculate_ex($str, $from+1, $to-1, 0);
       else
       return calculate_ex($str, $from, $to, $level+1);
     }
     break;
-    case 7:
+    case 8:
     {
       if($str[$from]>='0' && $str[$from]<='9' || 
       (($str[$from]=='-' || $str[$from]=='+') && $str[$from+1]>='0' && $str[$from+1]<='9'))
@@ -140,8 +155,10 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
       }
       else
       {
-        if($str=='true') return intval(1);
-        elseif($str=='false') return intval(0);
+        $name=substr($str, $from, $to-$from+1);
+        //print 'mam zmienna '.$name.' '.$from.' '.$to.' '.$level."\n";
+        if($name=='true') return 1;
+        elseif($name=='false') return 0;
         else return 0; //tu będzie funkcja która pobiera zmienną
       }
     }
@@ -212,13 +229,31 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
   return 0;
 }
 
+function set_variables($str)
+{
+  $assignments=explode(';', $str);
+  foreach($assignments as $assign)
+  {
+    $asstab=explode(':=', $assign);
+    
+    $size=count($asstab);
+    
+    if($size<2) continue;
+    if($size>2) throw new Exception('too_many_:=');
+    
+    $asstab[0]=trim($asstab[0]);
+    $asstab[1]=trim($asstab[1]);
+    print $asstab[0].' = '.calculate($asstab[1])."\n";
+  }
+}
+
 //Przykładowe oliczenia
 
 //$str='(5+(1243-43)*3)*(2+2*2)';
 
-//$str='true!=false';
+$str='true!=!false';
 
-//$str='(43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
+$str=' (43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna+ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
 
 
 try
@@ -231,5 +266,8 @@ catch (Exception $e) {
 }
 
 print ((43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454))."\n"; //tu to samo w PHP dla porównania
+
+
+set_variables('chuj:=true!=!false ;   dupa chuja:=2+5/3');
 
 ?>

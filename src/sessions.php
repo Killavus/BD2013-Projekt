@@ -119,6 +119,7 @@ function get_current_session_id()
   return $g_session_id;
 }
 
+//zwraca aktualną sesje
 function get_current_session()
 {
   $session_id=get_current_session_id();
@@ -126,7 +127,7 @@ function get_current_session()
   return get_session($session_id);
 }
 
-
+//zwraca liste id kontynuowalnych gier
 function get_continuable_games($user = NULL) {
   $id = deduce_user_id($user);
 

@@ -1,0 +1,43 @@
+Wyrażenia:
+
+Mogą się składać z operatorów, nawiasów (), białych znaków, liczb, nazw zmiennych i stałych.
+
+  Dostępne operatory z priorytetami:
+  6. !,~,-,+ (jednoargumentowe)
+  5. *,/,%
+  4. +,-
+  3. <,<=,>,>=
+  2. ==,!=
+  1. &,^,|  
+  0. &&,||
+  
+  Stałe:
+    dostępne stałe to 'true'=1 i 'false'=0
+
+  Zmienne: 
+  mogą się składać z dużych, małych liter, liczb, białych znaków, znaków $,@ i chuj wie czego jeszcze
+  Uwagi: 
+    białe znaki z poczatku i z końca są odrzucane
+    zmienne nie mogą mieć w sobie operatorów (uwaga na -)
+
+  Przykłady wyrażeń:
+  
+  '(5+(1243-43)*3)*(2+2*2)'
+  'true!=!false'
+  '(43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna+ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'
+
+  Modyfikatory:
+  
+  Jeżeli na początku nazwy zmiennej jest $ to nie będzie ona wyświetlana w grze, a jeżeli @ to nie będzie 
+  wyświetlana ilość tego przedmiotu (wartość boolowska). Oczywiście znaczki będą pomijane przy wyświetlaniu.
+  
+  Jeżeli zmienna nie istnieje jej wartość to 0.
+
+Ciąg przypisań:
+  
+Jest to ciąg przypisań zmiennych w postaci
+
+  '<nazwa zmiennej1>:=>wyrarzenie1>; <nazwa zmiennej2>:=>wyrarzenie2> ;(...); <nazwa zmiennejN>:=>wyrarzenieN>'
+
+Przykład:
+  'kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5'
