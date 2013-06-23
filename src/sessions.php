@@ -3,12 +3,12 @@
 $GLOBALS['g_session_id'] = null;
 
 //zaczyna grę i zwaca id jej sesji jezeli istniala już sesja to wywala ją
-function begin_game($game_id)
+function begin_game($game_id, $user)
 {
   if(!signed_in()) die("Musisz być zalogowany!");
   $game=get_game($game_id);
   $question_id=deduce_question_id($game);
-  $user_id=deduce_user_id(current_user());
+  $user_id=deduce_user_id($user);
   
   $db = user_database();
   
@@ -57,10 +57,10 @@ function begin_game($game_id)
 }
 
 //kontynuuje gre - zwraca id sesji zaczętej wcześniej gry
-function continue_game($game_id)
+function continue_game($game_id, $user)
 {
   if(!signed_in()) die("Musisz być zalogowany!");
-  $user_id=deduce_user_id(current_user());
+  $user_id=deduce_user_id($user);
   
   $db = user_database();
   
