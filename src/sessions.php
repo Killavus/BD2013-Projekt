@@ -3,7 +3,7 @@
 $GLOBALS['g_session_id'] = null;
 
 //zaczyna grę i zwaca id jej sesji jezeli istniala już sesja to wywala ją
-function begin_game($game_id, $user)
+function begin_game($game_id, $user=NULL)
 {
   if(!signed_in()) die("Musisz być zalogowany!");
   $game=get_game($game_id);
@@ -14,9 +14,10 @@ function begin_game($game_id, $user)
   
   try { 
     $db->beginTransaction();
-    $sesion_delete = $db->prepare("DELETE FROM sesja WHERE sesja.id_uzytkownika=:id_uzytkownika");
+    $sesion_delete = $db->prepare("DELETE FROM sesja WHERE sesja.id_uzytkownika=:id_uzytkownika
+                                                       AND sesja.id_gry=:id_gry");
    
-    $sesion_delete->execute([':id_uzytkownika' => $user_id]);
+    $sesion_delete->execute([':id_uzytkownika' => $user_id, ':id_gry' => $game_id]);
     
     $db->commit();
   }
@@ -57,7 +58,7 @@ function begin_game($game_id, $user)
 }
 
 //kontynuuje gre - zwraca id sesji zaczętej wcześniej gry
-function continue_game($game_id, $user)
+function continue_game($game_id, $user=NULL)
 {
   if(!signed_in()) die("Musisz być zalogowany!");
   $user_id=deduce_user_id($user);
@@ -124,5 +125,28 @@ function get_current_session()
   if($session_id === null) return null;
   return get_session($session_id);
 }
+
+
+function get_continuable_games($user = NULL) {
+  $id = deduce_user_id($user);
+
+  if((int)$id < 1)
+    return [];
+
+  $db = user_database();
+  $stmt = $db->prepare("SELECT sesja.id_gry FROM sesja WHERE id_uzytkownika=:id_uzytkownika");
+
+  $stmt->execute([':id_uzytkownika' => $id]);
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt->closeCursor();
+
+  $games = [];
+  foreach($result as $data_row) {
+    $games[] = $data_row['id_gry'];
+  }
+
+  return $games;
+}
+
 
 ?>
