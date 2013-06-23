@@ -150,4 +150,22 @@ function create_user($login, $name, $password) {
 
   $stmt->closeCursor();
 }
+
+// Wyszukuje użytkowników, których nazwy zawierają w sobie podane słowo i nie są twórcami/adminami gry
+function search_users($word,$game_id) {
+	$new_word = "%".$word."%";
+
+	$db = user_database();
+
+	$stmt = $db->prepare('SELECT id_uzytkownika,nazwa FROM uzytkownik
+		WHERE nazwa LIKE :word AND id_uzytkownika NOT IN(
+			SELECT id_uzytkownika FROM uprawnienie WHERE id_gry = :id_gry
+		)
+		ORDER BY nazwa');
+	$stmt->execute([':word' => $new_word,':id_gry' => $game_id]);
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$stmt->closeCursor();
+
+	return $result;
+}
 ?>
