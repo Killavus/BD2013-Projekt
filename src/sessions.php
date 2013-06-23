@@ -56,6 +56,36 @@ function begin_game($game_id)
   return $sesion_id;
 }
 
+//kontynuuje gre - zwraca id sesji zaczętej wcześniej gry
+function continue_game($game_id)
+{
+  if(!signed_in()) die("Musisz być zalogowany!");
+  $user_id=deduce_user_id(current_user());
+  
+  $db = user_database();
+  
+  try {
+    $db->beginTransaction();
+    $sesion_insert = $db->prepare("SELECT id_sesji FROM sesja WHERE id_uzytkownika=:id_uzytkownika 
+                                                                AND id_gry=:id_gry");
+   
+    $sesion_insert->execute([':id_uzytkownika' => $user_id, 
+                             ':id_gry' => $game_id]);
+    
+    $sesion_id = $sesion_insert->fetchColumn();
+    
+    $db->commit();
+  }
+  catch(PDOException $pdo) {
+  echo $pdo->getMessage();
+  $db->rollBack();
+  $GLOBALS['g_session_id']=null;
+  return null;
+  }
+  $GLOBALS['g_session_id']=$sesion_id;
+  return $sesion_id;
+}
+
 //zwraca sesje na podstawie jej id
 function get_session($session_id) {
 
