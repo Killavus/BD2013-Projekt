@@ -97,7 +97,6 @@ CREATE TABLE klucz_przegladarki (
   user_agent text NOT NULL,
   wygasa timestamp NOT NULL,
   id_uzytkownika bigint NOT NULL,
-  aktualna_sesja bigint,
   CONSTRAINT klucz_przegladarki_uniq UNIQUE(klucz, id_uzytkownika),
   CONSTRAINT klucz_przegladarki_id_uzytkownika_fk FOREIGN KEY (id_uzytkownika) REFERENCES uzytkownik ON DELETE CASCADE ON UPDATE CASCADE
 );
