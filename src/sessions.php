@@ -2,7 +2,7 @@
 
 $GLOBALS['g_session_id'] = null;
 
-//zaczyna grę i zwaca id jej sesji
+//zaczyna grę i zwaca id jej sesji jezeli istniala już sesja to wywala ją
 function begin_game($game_id)
 {
   if(!signed_in()) die("Musisz być zalogowany!");
@@ -10,7 +10,23 @@ function begin_game($game_id)
   $question_id=deduce_question_id($game);
   $user_id=deduce_user_id(current_user());
   
-  $db = creator_database();
+  $db = user_database();
+  
+  try { 
+    $db->beginTransaction();
+    $sesion_delete = $db->prepare("DELETE FROM sesja WHERE sesja.id_uzytkownika=:id_uzytkownika");
+   
+    $sesion_delete->execute([':id_uzytkownika' => $user_id]);
+    
+    $db->commit();
+  }
+  catch(PDOException $pdo) {
+  echo $pdo->getMessage();
+  $db->rollBack();
+  $GLOBALS['g_session_id']=null;
+  return null;
+  }
+  
   
   try {
     $db->beginTransaction();
@@ -65,6 +81,7 @@ function get_session($session_id) {
 function get_current_session_id()
 {
   global $g_session_id;
+  //
   return $g_session_id;
 }
 

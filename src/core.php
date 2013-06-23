@@ -9,4 +9,5 @@ require_once 'src/game.php';
 require_once 'src/router.php';
 require_once 'src/questions.php';
 require_once 'src/answers.php';
+require_once 'src/sessions.php';
 ?>
