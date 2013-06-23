@@ -31,6 +31,9 @@
         <tr>
           <td><?php echo $game['nazwa_gry']; ?></td>
           <td>
+						<?php if($game['ranga'] == 'A') ?>
+						<a href="?page=creator&action=add_user&gid=<?php echo $id; ?>"
+							class="btn btn-small btn-info">Dodaj użytkownika</a>
             <a href="?page=creator&action=edit&gid=<?php echo $id; ?>" 
               class="btn btn-small btn-primary">Edytuj</a>&nbsp;
             <?php if($game['ranga'] == 'A') ?>

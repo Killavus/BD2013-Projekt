@@ -61,6 +61,25 @@ function _has_rank($game, $user, $rank) {
   return $res > 0;
 }
 
+function _set_rank($user_id, $game_id, $rank) {
+	if(!in_array($rank,array('G','T','A')))
+		return false;
+	
+	$db = creator_database();
+
+	$stmt = $db->prepare('DELETE FROM uprawnienie
+		WHERE id_uzytkownika = :id_uz AND id_gry = :id_gry');
+	$stmt->execute([':id_uz' => $user_id, ':id_gry' => $game_id]);
+	$stmt->closeCursor();
+
+	$stmt_insert = $db->prepare('INSERT INTO uprawnienie(id_uzytkownika,id_gry,ranga)
+		VALUES(:id_uz,:id_gry,:rank)');
+	$stmt_insert->execute([':id_uz' => $user_id, ':id_gry' => $game_id, ':rank' => $rank]);
+	$stmt->closeCursor();
+	
+	return true;
+}
+
 function get_modifiable_games($user = NULL) {
   $id = deduce_user_id($user);
 
