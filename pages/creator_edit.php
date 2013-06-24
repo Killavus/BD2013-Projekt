@@ -18,7 +18,10 @@ function message() {
 			5 => "Pytanie o zadanej nazwie w tej grze już istnieje",
 			6 => "Odpowiedź o zadanej nazwie w tej grze już istnieje",
 			7 => "Do pytania prawdopodobnie istnieją dowiązania (pytanie startowe lub odpowiedź przenosi do niego)",
-			8 => "Pytanie o podanym id w tej grze nie istnieje"
+			8 => "Pytanie o podanym id w tej grze nie istnieje",
+			9 => "Nie udało się załadować pliku",
+			10 => "Możesz przesyłać tylko obrazki (pliki .jpg .jpeg .png .gif)",
+			11 => "Niespójność transakcji"
 		];
 		
 		$error_message = $errors[(int)$_GET['error']];
@@ -82,7 +85,7 @@ function message() {
 			<button id="add_question_button" type="button" class="btn btn-success"> Stwórz pytanie </button>
 			<div id="add_question" style="display: none">
 				<div class="radius_border">
-				<form action="actions/add_question.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
+				<form enctype="multipart/form-data" action="actions/add_question.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 					<div class="control-group">
 						<label class="control-label" for="nazwa"> Nazwa: </label>
 						<div class="controls">
@@ -111,6 +114,14 @@ function message() {
 						<label class="control-label" for="tresc"> Treść: </label>
 						<div class="controls">
 							<textarea id="tresc" name="tekst" rows="4" tabindex=4 ></textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<input id="file_button_q" type="button" class="btn btn-small" value="Wybierz obrazek" />
+							<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+							<input id="file_hidden_q" name="file" type="file" style="display: none" />
+							<span id="file_help_q" class="help-inline"></span>
 						</div>
 					</div>
 					<div class="control-group">
@@ -162,7 +173,7 @@ function message() {
 			<button id="add_answer_button" class="btn btn-success" type="button"> Stwórz odpowiedź </button>
 			<div id="add_answer" style="display: none">
 				<div class="radius_border">
-					<form action="actions/add_answer.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
+					<form enctype="multipart/form-data" action="actions/add_answer.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 						<div class="control-group">
 							<label class="control-label" for="ans_nazwa"> Nazwa: </label>
 							<div class="controls">
@@ -274,5 +285,14 @@ function message() {
 
 	$("#set_primary_button").click(function() {
 		$("#set_primary").toggle(350);
+	});
+
+	$("#file_button_q").click(function() {
+		$("#file_hidden_q").click();
+	});
+
+	$("#file_hidden_q").bind('change',function() {
+		var path = $(this).val().split('\\');
+		$("#file_help_q").text(path.pop());
 	});
 </script>

@@ -7,7 +7,10 @@ function message(){
 			2 => "Nazwa i treść pytania nie mogą być puste",
 			3 => "Nazwa nie może składać się z samych białych znaków",
 			4 => "Treść nie może składać się z samych białych znaków",
-			5 => "Nazwa i treść odpowiedzi nie mogą być puste"
+			5 => "Nazwa i treść odpowiedzi nie mogą być puste",
+			6 => "Możesz przesyłać tylko obrazki (pliki .jpg .jpeg .png .gif)",
+			7 => "Nie udało się załadować pliku",
+			8 => "Niespójność transakcji"
 		];
 
 		$text = $errors[(int)$_GET['error']];
@@ -62,7 +65,7 @@ $answer = $what == 'O' ? get_answer($id) : null;
 	<?php message(); ?>
 	<?php if($what == 'P') { ?>
 		<div class="radius_border">
-			<form action="actions/question_update.php?qid=<?php echo $id; ?>" method="post" class="form-horizontal">
+			<form enctype="multipart/form-data" action="actions/question_update.php?qid=<?php echo $id; ?>" method="post" class="form-horizontal">
 				<div class="control-group">
 					<label class="control-label" for="nazwa"> Nazwa: </label>
 					<div class="controls">
@@ -89,11 +92,27 @@ $answer = $what == 'O' ? get_answer($id) : null;
 				</div>
 				<div class="control-group">
 					<div class="controls">
+						<input id="file_button_q" type="button" class="btn btn-small" value="Wybierz obrazek" />
+						<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+						<input id="file_hidden_q" name="file" type="file" style="display: none" />
+						<span id="file_help_q" class="help-inline"></span>
+						<span class="help-block"><strong>Uwaga!</strong> Jeśli nie chcesz zmieniać obrazka, pozostaw puste (niewybrane)</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
 						<button type="submit" class="btn btn-primary"> Zapisz </button>
 					</div>
 				</div>
 			</form>
 		</div>
+		<?php if(!empty($quest['pytanie']['src'])) { ?>
+			<div class="text-center">
+				<h4> Aktualny obrazek </h4>
+				<img src="<?php echo $quest['pytanie']['src']; ?>" class="img-polaroid" >
+			</div>
+		<?php
+		} ?>
 		<div style="margin-top: 30px">
 			<h4>Odpowiedzi do pytania "<?php echo $quest['pytanie']['nazwa']; ?>"</h4>
 			<table class="table">
@@ -199,3 +218,14 @@ $answer = $what == 'O' ? get_answer($id) : null;
 	<?php
 	} ?>
 </div>
+
+<script type="text/javascript">
+	$("#file_button_q").click(function() {
+		$("#file_hidden_q").click();
+	});
+
+	$("#file_hidden_q").bind('change',function() {
+		var path = $(this).val().split('\\');
+		$("#file_help_q").text(path.pop());
+	});
+</script>
