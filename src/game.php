@@ -97,4 +97,19 @@ function get_game_id($id,$base) { // base = 'P' (pytanie) lub 'O' (odpowiedź)
 
 	return $result;
 }
+
+function search_games($word) {
+	$new_word = "%".$word."%";
+	$db = user_database();
+
+	$stmt = $db->prepare('SELECT gra.nazwa AS nazwa_gry,u.login,u.nazwa FROM gra
+		JOIN uprawnienie USING(id_gry)
+		JOIN uzytkownik AS u USING(id_uzytkownika)
+		WHERE gra.nazwa LIKE :name');
+	$stmt->execute([':name' => $new_word]);
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$stmt->closeCursor();
+
+	return $result;
+}
 ?>

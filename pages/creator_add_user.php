@@ -25,9 +25,9 @@ $game = get_game((int)$_GET['gid']);
 		<small><a href="?page=creator&action=edit&gid=<?php echo $game['gra']['id_gry']; ?>">przejdź do edycji</a></small></h3>
 	<?php message(); ?>
 	<div class="pull-right">
-		<input id="lol" type="text" class="search-query search_input" search-connection="users" placeholder="Szukaj">
+		<input type="text" class="search-query search_input" search-connection="users" placeholder="Szukaj">
 	</div>
-	<table id="users" class="table table-striped search_table" game_id=<?php echo $game['gra']['id_gry']; ?>>
+	<table id="users" class="table table-striped search_table" filter=1 game_id=<?php echo $game['gra']['id_gry']; ?>>
 		<thead>
 			<tr>
 				<th>ID</th>
