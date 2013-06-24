@@ -28,6 +28,16 @@ if(!preg_match('/([^ \t\n\r]+)/',$answer['tresc'])) {
 	return null;
 }
 
+if(check_assignments($answer['stan']) === false) {
+	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 12]);
+	return null;
+}
+
+if(check_expression($answer['warunek']) === false) {
+	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 13]);
+	return null;
+}
+
 if(!can_modify_game($game_id)){
 	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 4]);
 }
