@@ -84,15 +84,50 @@ function get_question_by_name($q_name,$game_id) {
 
 function add_question($question,$game_id,$user = null) {
 	$user_id = deduce_user_id($user);
+	$number = null;
 
 	$question['nazwa'] = htmlspecialchars($question['nazwa']);
 	$question['tekst'] = htmlspecialchars($question['tekst']);
 
 	$db = creator_database();
-	$stmt = $db->prepare('INSERT INTO pytanie(id_gry,id_uzytkownika,nazwa,tekst,stan,warunek)
-		VALUES(:id_gry,:id_uzytkownika,:nazwa,:text,:stan,:warunek)');
-	$stmt->execute([':id_gry' => $game_id, ':id_uzytkownika' => $user_id, ':nazwa' => $question['nazwa'],
-		':text' => $question['tekst'], ':stan' => $question['stan'], ':warunek' => $question['warunek']]);
+
+	if($question['image'] === false) {
+		$stmt = $db->prepare('INSERT INTO pytanie(id_gry,id_uzytkownika,nazwa,tekst,stan,warunek)
+			VALUES(:id_gry,:id_uzytkownika,:nazwa,:text,:stan,:warunek)');
+		$stmt->execute([':id_gry' => $game_id, ':id_uzytkownika' => $user_id, ':nazwa' => $question['nazwa'],
+			':text' => $question['tekst'], ':stan' => $question['stan'], ':warunek' => $question['warunek']]);
+		$stmt->closeCursor();
+
+		return null;
+	}
+	else {
+		try {
+			$db->beginTransaction();
+	
+			$stmt = $db->prepare('INSERT INTO obrazek(src) VALUES(:source) RETURNING id_obrazka');
+			$stmt->execute([':source' => "image"]);
+			$number = $stmt->fetchColumn();
+			$stmt->closeCursor();
+	
+			$stmt = $db->prepare('UPDATE obrazek SET src = :source WHERE id_obrazka = :id');
+			$stmt->execute([':source' => "img/image".$number.".".$question['extension'], ':id' => $number]);
+			$stmt->closeCursor();
+	
+			$stmt = $db->prepare('INSERT INTO pytanie(id_gry,id_uzytkownika,nazwa,tekst,stan,warunek,id_obrazka)
+				VALUES(:id_gry,:id_uzytkownika,:nazwa,:text,:stan,:warunek,:id_obrazka)');
+			$stmt->execute([':id_gry' => $game_id, ':id_uzytkownika' => $user_id, ':nazwa' => $question['nazwa'],
+				':text' => $question['tekst'], ':stan' => $question['stan'], ':warunek' => $question['warunek'], ':id_obrazka' => $number]);
+			$stmt->closeCursor();
+	
+			$db->commit();
+		}
+		catch(PDOException $exc) {
+			echo $exc->getMessage();
+			$db->rollBack();
+		}
+
+		return $number;
+	}
 }
 
 function question_delete($q_id) {
@@ -121,13 +156,45 @@ function question_delete($q_id) {
 
 function update_question($new) {
 	$db = creator_database();
+	$number = null;
 
 	$new['nazwa'] = htmlspecialchars($new['nazwa']);
 	$new['tekst'] = htmlspecialchars($new['tekst']);
+	
+	if($new['image'] === false) {
+		$stmt = $db->prepare('UPDATE pytanie SET (nazwa,stan,tekst,warunek) = (:nazwa,:stan,:tekst,:warunek) WHERE id_pytania = :id_pyt');
+		$stmt->execute([':id_pyt' => $new['id_pytania'], ':nazwa' => $new['nazwa'],
+			':stan' => $new['stan'], ':tekst' => $new['tekst'], ':warunek' => $new['warunek']]);
+		$stmt->closeCursor();
+	}
+	else {
+		try {
+			$db->beginTransaction();
+			
+			$stmt = $db->prepare('INSERT INTO obrazek(src) VALUES(:source) RETURNING id_obrazka');
+			$stmt->execute([':source' => "image"]);
+			$number = $stmt->fetchColumn();
+			$stmt->closeCursor();
+	
+			$stmt = $db->prepare('UPDATE obrazek SET src = :source WHERE id_obrazka = :id');
+			$stmt->execute([':source' => "img/image".$number.".".$new['extension'], ':id' => $number]);
+			$stmt->closeCursor();
 
-	$stmt = $db->prepare('UPDATE pytanie SET (nazwa,stan,tekst,warunek) = (:nazwa,:stan,:tekst,:warunek) WHERE id_pytania = :id_pyt');
-	$stmt->execute([':id_pyt' => $new['id_pytania'], ':nazwa' => $new['nazwa'],
-		':stan' => $new['stan'], ':tekst' => $new['tekst'], ':warunek' => $new['warunek']]);
-	$stmt->closeCursor();
+			$stmt = $db->prepare('UPDATE pytanie SET (nazwa,stan,tekst,warunek,id_obrazka) = (:nazwa,:stan,:tekst,:warunek,:id_obrazka)
+				WHERE id_pytania = :id_pyt');
+			$stmt->execute([':id_pyt' => $new['id_pytania'], ':nazwa' => $new['nazwa'],
+				':stan' => $new['stan'], ':tekst' => $new['tekst'], ':warunek' => $new['warunek'], ':id_obrazka' => $number]);
+			$stmt->closeCursor();
+
+			$db->commit();
+		}
+		catch(PDOException $exc) {
+			echo $exc->message();
+			$db->rollBack();
+			return null;
+		}
+
+		return $number;
+	}
 }
 ?>

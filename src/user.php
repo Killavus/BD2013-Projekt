@@ -168,4 +168,19 @@ function search_users($word,$game_id) {
 
 	return $result;
 }
+
+function update_user($new_name) {
+	if(!signed_in()) return false;
+	
+	$user = current_user();
+	
+	$new_name = htmlspecialchars($new_name);
+	$db = creator_database();
+
+	$stmt = $db->prepare('UPDATE uzytkownik SET nazwa = :name WHERE id_uzytkownika = :user_id');
+	$stmt->execute([':name' => $new_name, ':user_id' => $user['id_uzytkownika']]);
+	$stmt->closeCursor();
+
+	return true;
+}
 ?>

@@ -39,6 +39,6 @@ if($a !== null) {
 	return null;
 }
 
-add_answer($answer,$game_id);
+add_answer($answer,$game_id);																												
 redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'success' => 2]);
 ?>
