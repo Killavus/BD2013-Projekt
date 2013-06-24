@@ -1,5 +1,9 @@
 <!-- potrzebne: $game_id, $questions -->
 
+<?php
+$q_edit = isSet($_GET['qid']) ? (int)$_GET['qid'] : -1;
+?>
+
 <div class="radius_border">
 	<form enctype="multipart/form-data" action="actions/add_answer.php?gid=<?php echo $game_id; ?>" method="post" class="form-horizontal">
 		<div class="control-group">
@@ -8,16 +12,16 @@
 				<input id="ans_nazwa" type="text" name="nazwa" class="input-large" placeholder="Nazwa" tabindex=5 />
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" <?php if($q_edit > 0) echo 'style="display: none"'; ?> >
 			<label class="control-label" for="select"> Do pytania: </label>
 			<div class="controls">
-				<select id="select" name="reference_question" tabindex=6>
+				<select id="select" name="reference_question" tabindex=6 >
 					<?php
 						foreach($questions as $quest){
 							$name = $quest['nazwa'];
 							$id = $quest['id_pytania'];
 							?>
-							<option value="<?php echo $id; ?>"> <?php echo $name; ?> </option>
+							<option value="<?php echo $id; ?>" <?php if($id == $q_edit) echo "selected"; ?> > <?php echo $name; ?> </option>
 							<?php
 						}
 					?>
