@@ -41,7 +41,7 @@ CREATE TABLE odpowiedz (
 	tekst text NOT NULL,
 	warunek text,
 	stan text,
-	CONSTRAINT odpowiedz_id_pytania FOREIGN KEY (id_pytania) REFERENCES pytanie ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT odpowiedz_id_pytania FOREIGN KEY (id_pytania) REFERENCES pytanie ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE pytanie_odpowiedz (
