@@ -105,7 +105,7 @@ function search_games($word) {
 	$stmt = $db->prepare('SELECT id_gry,gra.nazwa AS nazwa_gry,u.login,u.nazwa FROM gra
 		JOIN uprawnienie USING(id_gry)
 		JOIN uzytkownik AS u USING(id_uzytkownika)
-		WHERE gra.nazwa LIKE :name');
+		WHERE gra.nazwa LIKE :name AND ranga=\'A\'');
 	$stmt->execute([':name' => $new_word]);
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$stmt->closeCursor();
