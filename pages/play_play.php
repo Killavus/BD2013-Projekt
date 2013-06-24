@@ -11,7 +11,10 @@
   
   foreach($question['odpowiedzi'] as $id => $answer)
   {
-    if(!empty($answer['warunek']) && calculate($answer['warunek'])==0)  unset($question['odpowiedzi'][$id]);
+    if(!empty($answer['warunek']) && calculate($answer['warunek'])==0)  {unset($question['odpowiedzi'][$id]); continue;}
+    
+    $q=get_question($answer['id_pytania']);
+    if(!empty($q['pytanie']['warunek']) && calculate($q['pytanie']['warunek'])==0)  {unset($question['odpowiedzi'][$id]); continue;}
   }
 
   if(empty($question['odpowiedzi'])) {$empty=true; end_game_by_session($sid);} else $empty=false;
