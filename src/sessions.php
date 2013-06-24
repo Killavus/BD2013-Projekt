@@ -14,10 +14,10 @@ function begin_game($game_id, $user=NULL)
   
   try { 
     $db->beginTransaction();
-    $sesion_delete = $db->prepare("DELETE FROM sesja WHERE sesja.id_uzytkownika=:id_uzytkownika
+    $session_delete = $db->prepare("DELETE FROM sesja WHERE sesja.id_uzytkownika=:id_uzytkownika
                                                        AND sesja.id_gry=:id_gry");
    
-    $sesion_delete->execute([':id_uzytkownika' => $user_id, ':id_gry' => $game_id]);
+    $session_delete->execute([':id_uzytkownika' => $user_id, ':id_gry' => $game_id]);
     
     $db->commit();
   }
@@ -31,7 +31,7 @@ function begin_game($game_id, $user=NULL)
   
   try {
     $db->beginTransaction();
-    $sesion_insert = $db->prepare("INSERT INTO sesja(id_uzytkownika, 
+    $session_insert = $db->prepare("INSERT INTO sesja(id_uzytkownika, 
                                                      id_gry, 
                                                      id_pytania) 
                                    VALUES(:id_uzytkownika, 
@@ -39,11 +39,11 @@ function begin_game($game_id, $user=NULL)
                                           :id_pytania) 
                                    RETURNING id_sesji");
    
-    $sesion_insert->execute([':id_uzytkownika' => $user_id, 
+    $session_insert->execute([':id_uzytkownika' => $user_id, 
                              ':id_gry' => $game_id,
                              ':id_pytania' => $question_id]);
     
-    $session_id = $sesion_insert->fetchColumn();
+    $session_id = $session_insert->fetchColumn();
     
     $db->commit();
   }
@@ -67,13 +67,13 @@ function continue_game($game_id, $user=NULL)
   
   try {
     $db->beginTransaction();
-    $sesion_insert = $db->prepare("SELECT id_sesji FROM sesja WHERE id_uzytkownika=:id_uzytkownika 
+    $session_insert = $db->prepare("SELECT id_sesji FROM sesja WHERE id_uzytkownika=:id_uzytkownika 
                                                                 AND id_gry=:id_gry");
    
-    $sesion_insert->execute([':id_uzytkownika' => $user_id, 
+    $session_insert->execute([':id_uzytkownika' => $user_id, 
                              ':id_gry' => $game_id]);
     
-    $session_id = $sesion_insert->fetchColumn();
+    $session_id = $session_insert->fetchColumn();
     
     $db->commit();
   }
@@ -86,6 +86,50 @@ function continue_game($game_id, $user=NULL)
   $GLOBALS['g_session_id']=$session_id;
   return $session_id;
 }
+
+function end_game($game_id, $user=NULL)
+{
+  if(!signed_in()) die("Musisz być zalogowany!");
+  $user_id=deduce_user_id($user);
+  
+  $db = user_database();
+  
+  try {
+    $db->beginTransaction();
+    $session_delete = $db->prepare("DELETE FROM sesja WHERE id_uzytkownika=:id_uzytkownika 
+                                                     AND id_gry=:id_gry
+                                                     RETURNING id_sesji");
+   
+    $session_delete->execute([':id_uzytkownika' => $user_id, 
+                             ':id_gry' => $game_id]);
+    
+    $session_id = $session_delete->fetchColumn();
+    
+    $db->commit();
+    
+    try {
+      $db->beginTransaction();
+      $vars_delete = $db->prepare("DELETE FROM srodowisko WHERE id_sesji=:id_sesji");
+     
+      $vars_delete->execute([':id_sesji' => $session_id]);
+      
+      $db->commit();
+    }
+    catch(PDOException $pdo) {
+    echo $pdo->getMessage();
+    $db->rollBack();
+    }
+    
+  }
+  catch(PDOException $pdo) {
+  echo $pdo->getMessage();
+  $db->rollBack();
+  }
+  
+ 
+  $GLOBALS['g_session_id']=null;
+}
+
 
 //zwraca sesje na podstawie jej id
 function get_session($session_id) {

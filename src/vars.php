@@ -12,6 +12,38 @@ Dostępne operatory z priorytetami:
 1. &,^,|  
 0. &&,||
 */
+
+function get_variable($name, $session_id) {
+  $db = user_database();
+  $stmt = $db->prepare("SELECT srodowisko.wartosc FROM srodowisko WHERE id_sesji=:id_sesji 
+                                                                  AND nazwa=:nazwa");
+
+  $stmt->execute([':id_sesji' => $session_id, ':nazwa' => $name]);
+  $result = $stmt->fetchColumn();
+  $stmt->closeCursor();
+
+  return intval($result);
+}
+
+function set_variable($name, $value, $session_id) {
+  $db = user_database();
+  $db->beginTransaction();
+  $stmt = $db->prepare("DELETE FROM srodowisko WHERE id_sesji=:id_sesji 
+                                               AND nazwa=:nazwa");
+
+  $stmt->execute([':id_sesji' => $session_id, ':nazwa' => $name]);
+  $stmt->closeCursor();
+  
+  $stmt = $db->prepare("INSERT INTO srodowisko(id_sesji,nazwa,wartosc)
+                                    values(:id_sesji, :nazwa, :wartosc)");
+
+  $stmt->execute([':id_sesji' => $session_id, ':nazwa' => $name, ':wartosc' => $value]);
+  $stmt->closeCursor();
+  
+  $db->commit();
+}
+
+
 function calculate($str)
 {
   return calculate_ex($str, 0, strlen($str)-1, 0);
@@ -268,6 +300,6 @@ catch (Exception $e) {
 print ((43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454))."\n"; //tu to samo w PHP dla porównania
 
 
-set_variables('chuj:=true!=!false ;   dupa chuja:=2+5/3');
+set_variables('kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5');
 
 ?>
