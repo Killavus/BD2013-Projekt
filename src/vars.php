@@ -192,7 +192,8 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
         elseif($name=='false') return 0;
         else
         {
-          get_variable($name, current_session_id());
+          return get_variable($name, current_session_id());
+         //return 0;
         }
       }
     }
@@ -331,6 +332,13 @@ function check_expression($str)
   return true;
 }
 
+function is_empty($str)
+{
+  if(trim($str)=='') return true;
+  else
+  false;
+}
+
 
 function get_last_error()
 {
@@ -346,6 +354,7 @@ $str='true!=!false';
 
 $str=' (43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna+ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
 
+$str='';
 
 try
 {
