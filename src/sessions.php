@@ -165,7 +165,7 @@ function get_current_session_id()
       $g_session_id=$_GET['sid']; //trzeba sprawdzić czy sesja jest i czy nalerzy do użytkownika
     }
     else
-    die('Brak sesji');
+    return null;
   }
   return $g_session_id;
 }

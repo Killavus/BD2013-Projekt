@@ -1,8 +1,5 @@
 <?php
 /*
-To jest kod obliczający wartość wyrażeń
-Trzeba jeszcze napisać funkcję do odczytu i zapisu zmiennych oraz operator przypisania i pewnie kilka innych pierdół.
-* 
 Dostępne operatory z priorytetami:
 6. !,~,-,+
 5. *,/,%
@@ -12,6 +9,8 @@ Dostępne operatory z priorytetami:
 1. &,^,|  
 0. &&,||
 */
+$GLOBALS['g_last_calculate_error']=null;
+
 
 function get_variable($name, $session_id) {
   $db = user_database();
@@ -264,7 +263,7 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
   return 0;
 }
 
-function set_variables($str)
+function set_assignments($str)
 {
   $assignments=explode(';', $str);
   foreach($assignments as $assign)
@@ -282,6 +281,62 @@ function set_variables($str)
     //print $asstab[0].' = '.calculate($asstab[1])."\n";
   }
 }
+
+function check_assignments($str)
+{
+  $assignments=explode(';', $str);
+  foreach($assignments as $assign)
+  {
+    $asstab=explode(':=', $assign);
+    
+    $size=count($asstab);
+    
+    if($size<2) continue;
+    if($size>2) {$GLOBALS['g_last_calculate_error']='Za dużo operatorów \':=\''; return false;}
+    
+    $asstab[1]=trim($asstab[1]);
+    if(!check_expression($asstab[1])) return false;
+  }
+  return false;
+}
+
+//zwraca prawdę jeżeli wyrażenie jest poprawne
+function check_expression($str)
+{
+  try
+  {
+    calculate($str);
+  }
+  catch (Exception $e) {
+    switch($e->getMessage())
+    {
+      case 'op_at_beginning':
+        $GLOBALS['g_last_calculate_error']='Operator na początku wyrażenia lub podwyrażenia';
+      return false;
+      case 'op_at_end':
+        $GLOBALS['g_last_calculate_error']='Operator na końcu wyrażenia lub podwyrażenia';
+      return false;
+      case 'bad_brackets':
+        $GLOBALS['g_last_calculate_error']='Złe nawiasowanie';
+      return false;
+      case 'other_error':
+        $GLOBALS['g_last_calculate_error']='Inny błąd';
+      return false;
+      case 'other_error2':
+        $GLOBALS['g_last_calculate_error']='Dziwny błąd';
+      return false;
+
+    }
+  }
+  return true;
+}
+
+
+function get_last_error()
+{
+  return $GLOBALS['g_last_calculate_error'];
+}
+
 
 //Przykładowe oliczenia
 
