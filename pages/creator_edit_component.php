@@ -160,6 +160,12 @@ $answer = $what == 'O' ? get_answer($id) : null;
 				<button class="btn btn-inverse" type="submit"> Podepnij </button>
 			</form>
 		</div>
+		<div style="margin-top: 120px; margin-bottom: 50px">
+			<button id="add_answer_button" class="btn btn-success" type="button"> Stwórz odpowiedź </button>
+			<div id="add_answer" style="display: none">
+				<?php require_once 'add_answer_form.php'; ?>
+			</div>
+		</div>
 	<?php
 	}
 	else { ?>
@@ -227,5 +233,9 @@ $answer = $what == 'O' ? get_answer($id) : null;
 	$("#file_hidden_q").bind('change',function() {
 		var path = $(this).val().split('\\');
 		$("#file_help_q").text(path.pop());
+	});
+
+	$("#add_answer_button").click(function() {
+		$("#add_answer").toggle(500);
 	});
 </script>
