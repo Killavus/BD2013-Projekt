@@ -192,8 +192,8 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
         elseif($name=='false') return 0;
         else
         {
-          return get_variable($name, current_session_id());
-         //return 0;
+          //return get_variable($name, current_session_id());
+         return 0;
         }
       }
     }
@@ -278,7 +278,7 @@ function set_assignments($str)
     
     $asstab[0]=trim($asstab[0]);
     $asstab[1]=trim($asstab[1]);
-    set_variable($asstab[0], calculate($asstab[1]), current_session_id());
+    //set_variable($asstab[0], calculate($asstab[1]), current_session_id());
     //print $asstab[0].' = '.calculate($asstab[1])."\n";
   }
 }
@@ -293,7 +293,10 @@ function check_assignments($str)
     $size=count($asstab);
     
     if($size<2) continue;
-    if($size>2) {$GLOBALS['g_last_calculate_error']='Za dużo operatorów \':=\''; return false;}
+    if($size>2) {
+      $GLOBALS['g_last_calculate_error']=6; 
+      return false;
+    }
     
     $asstab[1]=trim($asstab[1]);
     if(!check_expression($asstab[1])) return false;
@@ -312,19 +315,19 @@ function check_expression($str)
     switch($e->getMessage())
     {
       case 'op_at_beginning':
-        $GLOBALS['g_last_calculate_error']='Operator na początku wyrażenia lub podwyrażenia';
+        $GLOBALS['g_last_calculate_error']=1; 
       return false;
       case 'op_at_end':
-        $GLOBALS['g_last_calculate_error']='Operator na końcu wyrażenia lub podwyrażenia';
+        $GLOBALS['g_last_calculate_error']=2; 
       return false;
       case 'bad_brackets':
-        $GLOBALS['g_last_calculate_error']='Złe nawiasowanie';
+        $GLOBALS['g_last_calculate_error']=3;
       return false;
       case 'other_error':
-        $GLOBALS['g_last_calculate_error']='Inny błąd';
+        $GLOBALS['g_last_calculate_error']=4;
       return false;
       case 'other_error2':
-        $GLOBALS['g_last_calculate_error']='Dziwny błąd';
+        $GLOBALS['g_last_calculate_error']=5; 
       return false;
 
     }
@@ -343,6 +346,25 @@ function is_empty($str)
 function get_last_error()
 {
   return $GLOBALS['g_last_calculate_error'];
+}
+
+function get_error_message($id)
+{
+  switch($id)
+  {
+    case 1:
+    return 'Operator na początku wyrażenia lub podwyrażenia';
+    case 2:
+    return 'Operator na końcu wyrażenia lub podwyrażenia';
+    case 3:
+    return 'Złe nawiasowanie';
+    case 4:
+    return 'Inny błąd';
+    case 5:
+    return 'Dziwny błąd';
+    case 6:
+    return 'Za dużo operatorów \':=\''; 
+  }
 }
 
 
