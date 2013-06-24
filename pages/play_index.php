@@ -2,7 +2,7 @@
   <div class="row">
     <div class="span12">
       <h1>Zagraj</h1>
-      <p>Będziesz grau w gre</p>
+      <p>Bedziesz grau w gre</p>
     </div>
   </div>
   <?php if(has_modifiable_games()) { 
