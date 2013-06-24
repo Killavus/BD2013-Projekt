@@ -5,9 +5,9 @@
       <p>Bedziesz grau w gre</p>
     </div>
   </div> -->
-  <?php if(has_modifiable_games()) { 
+  <?php 
     $games = get_all_games();
-    //$continuable_games=get_continuable_games();
+    $continuable_games=get_continuable_games();
   ?>
 <!--  <div class="row">
     <div class="span12" style="margin-top: 3em">
@@ -32,18 +32,15 @@
 							class="btn btn-small btn-primary">Nowa gra</a>
               <?php if(in_array($game['id_gry'], $continuable_games)) { ?>
             <a href="?page=play&action=continue&gid=<?php echo $id; ?>" 
-              class="btn btn-small btn-info">Kontynuuj</a>&nbsp;
+              class="btn btn-small btn-info">Kontynuuj</a>&nbsp;  
               <?php } ?>
           </td>
         </tr>
-        <?php
-        }
-        ?>
+         <?php } ?>
         </tbody>      
       </table>
     </div>
   </div>
-  <?php } ?>
 </div> -->
 
 <!-- szukajka -->
@@ -64,6 +61,7 @@
 		<tbody search="ajax/game_filter.php">
 		</tbody>
 	</table>
+ 
 </div>
 <script type="text/javascript">
 <?php
