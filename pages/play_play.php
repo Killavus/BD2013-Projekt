@@ -27,15 +27,20 @@
   }
 
   if(empty($question['odpowiedzi'])) {$empty=true; end_game_by_session($sid);} else $empty=false;
+  
+  $env=get_environment($sid);
 ?>
+
+
 
 <div class="well">
 	<div class="container">
 		<div class="page-header">
 			<h3> Pytanie "<?php echo $question['pytanie']['nazwa']; ?>" 
       <?php if(!$empty) { ?>
-      <small> którą odpowiedź wybierzesz? </small> </h3>
+      <small> którą odpowiedź wybierzesz? </small> 
       <?php } ?>
+      </h3>
 		</div>
 		<?php
 		if(!empty($question['pytanie']['src'])) { ?>
@@ -66,4 +71,26 @@
       <?php } ?>
 		</div>
 	</div>
+  <?php if(!empty($env)) { ?>
+  <div class="container">
+		<div class="page-header">
+			<h4> Przedmioty i zasoby: </h4>
+		</div>
+		<p>
+      <?php
+        
+        foreach($env as $var)
+        {
+          if($var['nazwa'][0]=='@')
+          echo substr($var['nazwa'], 1)."<br/>\n";
+        }
+        foreach($env as $var)
+        {
+          if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@')
+          echo $var['nazwa'].' x '.$var['wartosc']."<br/>\n";
+        }
+      ?>
+    </p>
+	</div>
+  <?php } ?>
 </div>

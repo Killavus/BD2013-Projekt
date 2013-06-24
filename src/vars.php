@@ -43,6 +43,19 @@ function set_variable($name, $value, $session_id) {
 }
 
 
+function get_environment($session_id) {
+  $db = user_database();
+  $stmt = $db->prepare("SELECT srodowisko.nazwa,srodowisko.wartosc FROM srodowisko WHERE id_sesji=:id_sesji ORDER BY srodowisko.nazwa");
+
+  $stmt->execute([':id_sesji' => $session_id]);
+  
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt->closeCursor();
+  
+  return $result;
+}
+
+
 function calculate($str)
 {
   return calculate_ex($str, 0, strlen($str)-1, 0);
