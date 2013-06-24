@@ -57,6 +57,7 @@ function get_question($question) {
   foreach($data_set as $row) {
 		if($row['id_odpowiedzi'] !== null) {
     	$result_set['odpowiedzi'][] = only($row, ['id_odpowiedzi', 
+																								'id_pytania',
                                               	'nazwa',
                                               	'tekst',
                                               	'warunek',
