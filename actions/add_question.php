@@ -25,16 +25,6 @@ if(!preg_match('/([^ \t\n\r]+)/',$question['tekst'])) {
 	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 3]);
 	return null;
 }
-/*
-if(check_assignments($question['stan']) === false) {
-	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 12]);
-	return null;
-}
-
-if(check_expression($question['warunek']) === false) {
-	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 13]);
-	return null;
-}*/
 
 if(!empty($question['stan']) && check_assignments($question['stan']) === false) {
 	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 12, 'cerror' => get_last_error()]);

@@ -23,9 +23,9 @@ function filter2(word,tBody,site) {
 					'<td>' + data[i].nazwa_gry + '</td>' +
 					'<td>' + data[i].nazwa + ' (' + data[i].login + ') </td>' +
 					'<td> <a href="?page=play&action=new&gid='+data[i].id_gry+'"' + 
-						'class="btn btn-primary btn-small">Nowa gra</a>' +
+						'class="btn btn-primary btn-small">Nowa gra</a> ' +
 					'<a href="?page=play&action=continue&gid='+data[i].id_gry+'"' +
-						'class="btn btn-info btn-small">Kontunuuj</a>' +
+						'class="btn btn-info btn-small">Kontynuuj</a>' +
 					'</td>' +
 				'</tr>');
 			}
