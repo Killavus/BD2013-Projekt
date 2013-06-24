@@ -5,6 +5,7 @@ $GLOBALS['g_session_id'] = null;
 //zaczyna grę i zwaca id jej sesji jezeli istniala już sesja to wywala ją
 function begin_game($game_id, $user=NULL)
 {
+  end_game($game_id, $user); //usuwamy grę jeżeli instniała
   if(!signed_in()) die("Musisz być zalogowany!");
   $game=get_game($game_id);
   $question_id=deduce_question_id($game);
