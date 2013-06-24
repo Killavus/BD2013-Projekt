@@ -301,7 +301,7 @@ function check_assignments($str)
     $asstab[1]=trim($asstab[1]);
     if(!check_expression($asstab[1])) return false;
   }
-  return false;
+  return true;
 }
 
 //zwraca prawdę jeżeli wyrażenie jest poprawne
@@ -329,17 +329,9 @@ function check_expression($str)
       case 'other_error2':
         $GLOBALS['g_last_calculate_error']=5; 
       return false;
-
     }
   }
   return true;
-}
-
-function is_empty($str)
-{
-  if(trim($str)=='') return true;
-  else
-  false;
 }
 
 
