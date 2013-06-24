@@ -5,7 +5,7 @@
       <p>Bedziesz grau w gre</p>
     </div>
   </div>
-  <?php if(has_modifiable_games()) { 
+  <?php 
     $games = get_all_games();
     $continuable_games=get_continuable_games();
   ?>
@@ -32,16 +32,14 @@
 							class="btn btn-small btn-primary">Nowa gra</a>
               <?php if(in_array($game['id_gry'], $continuable_games)) { ?>
             <a href="?page=play&action=continue&gid=<?php echo $id; ?>" 
-              class="btn btn-small btn-info">Kontynuuj</a>&nbsp;
+              class="btn btn-small btn-info">Kontynuuj</a>&nbsp;  
               <?php } ?>
           </td>
         </tr>
-        <?php
-        }
-        ?>
+         <?php } ?>
         </tbody>      
       </table>
     </div>
   </div>
-  <?php } ?>
+ 
 </div>
