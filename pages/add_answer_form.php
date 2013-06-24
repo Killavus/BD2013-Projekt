@@ -2,6 +2,9 @@
 
 <?php
 $q_edit = isSet($_GET['qid']) ? (int)$_GET['qid'] : -1;
+$help_text_stan = "Możesz zmieniać zmienne (dowolne jakie sobie wymyślisz), np. gold:=300, wood:=wood+50, pod warunkiem,
+	że są to zmienne liczbowe.";
+$help_text_warunek = "Możesz napisać dowolne wyrażenie, które ma być prawdą/fałszem (0/różne od 0), np. gold>300, gold+wood>500";
 ?>
 
 <div class="radius_border">
@@ -52,7 +55,7 @@ $q_edit = isSet($_GET['qid']) ? (int)$_GET['qid'] : -1;
 			<div class="controls">
 				<input id="stan" type="text" name="stan" class="input-large" placeholder="Stan" tabindex=7 />
 				<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
-					data-content="Blah" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
+					data-content="<?php echo $help_text_stan; ?>" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
 			</div>
 		</div>
 		<div class="control-group">
@@ -60,7 +63,7 @@ $q_edit = isSet($_GET['qid']) ? (int)$_GET['qid'] : -1;
 			<div class="controls">
 				<input id="ans_warunek" type="text" name="warunek" class="input-large" placeholder="Warunek" tabindex=8 />
 				<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
-					data-content="Blah" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
+					data-content="<?php echo $help_text_warunek; ?>" data-original-title="Pomoc"> <i class="icon-question-sign"> </i> </a>
 			</div>
 		</div>
 		<div class="control-group">

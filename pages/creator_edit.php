@@ -3,6 +3,9 @@ $game = check_permissions();
 $game_id = $game['gra']['id_gry'];
 $game_name = $game['gra']['nazwa_gry'];
 $primary_question_id = $game['pytanie']['id_pytania'];
+$help_text_stan = "Możesz zmieniać zmienne (dowolne jakie sobie wymyślisz), np. gold:=300, wood:=wood+50, pod warunkiem,
+	że są to zmienne liczbowe.";
+$help_text_warunek = "Możesz napisać dowolne wyrażenie, które ma być prawdą/fałszem (0/różne od 0), np. gold>300, gold+wood>500";
 
 $questions = get_questions($game_id);
 $answers = get_answers($game_id);
@@ -104,7 +107,7 @@ function message() {
 						<div class="controls">
 							<input id="zasoby" type="text" name="stan" class="input-large" placeholder="Modyfikowanie zasobów" tabindex=2 />
 							<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
-								data-content="Wskazówki do napisania poprawnego warunku (nie wiem jakie póki co)" data-original-title="Pomoc">
+								data-content="<?php echo $help_text_stan; ?>" data-original-title="Pomoc">
 									<i class="icon-question-sign"> </i></a>
 						</div>
 					</div>
@@ -113,7 +116,7 @@ function message() {
 						<div class="controls">
 							<input id="warunek" type="text" name="warunek" class="input-large" placeholder="Warunek na zasoby" tabindex=3 />
 							<a href="#" class="setPopover" data-toggle="popover" data-placement="right"
-								data-content="Wskazówki do napisania poprawnego warunku (nie wiem jakie póki co)" data-original-title="Pomoc">
+								data-content="<?php echo $help_text_warunek; ?>" data-original-title="Pomoc">
 									<i class="icon-question-sign"> </i></a>
 						</div>
 					</div>
