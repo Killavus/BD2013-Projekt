@@ -26,7 +26,15 @@ if(!preg_match('/([^ \t\n\r]+)/',$question['tekst'])) {
 	return null;
 }
 
-//tutaj zapewne jeszcze powinno się pojawić sprawdzenie poprawności warunku i stanu.
+if(check_assignments($question['stan']) === false) {
+	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 12]);
+	return null;
+}
+
+if(check_expression($question['warunek']) === false) {
+	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 13]);
+	return null;
+}
 
 if(!can_modify_game($game_id)) {
 	redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 4]);

@@ -23,8 +23,15 @@ function message() {
 			10 => "Możesz przesyłać tylko obrazki (pliki .jpg .jpeg .png .gif)",
 			11 => "Niespójność transakcji"
 		];
+
+		$error_number = (int)$_GET['error'];
+		if($error_number == 12)
+			$errors[12] = get_last_error();
+
+		if($error_number == 13)
+			$errors[13] = get_last_error();
 		
-		$error_message = $errors[(int)$_GET['error']];
+		$error_message = $errors[$error_number];
 
 		echo "<div class='alert alert-error'>
 						<p class='text-center'> <strong>Błąd!</strong> $error_message </p>
