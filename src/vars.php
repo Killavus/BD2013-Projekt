@@ -292,8 +292,13 @@ function check_assignments($str)
     
     $size=count($asstab);
     
-    if($size<2) continue;
-    if($size>2) {
+    if($size<2) 
+    {
+      $GLOBALS['g_last_calculate_error']=7; 
+      return false;
+    }
+    if($size>2) 
+    {
       $GLOBALS['g_last_calculate_error']=6; 
       return false;
     }
@@ -356,6 +361,8 @@ function get_error_message($id)
     return 'Dziwny błąd';
     case 6:
     return 'Za dużo operatorów \':=\''; 
+    case 7:
+    return 'Brak operatora \':=\''; 
   }
 }
 
