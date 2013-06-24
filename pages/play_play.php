@@ -8,12 +8,22 @@
   $uid = deduce_user_id($user);
   
 	$question = get_question($qid);
+  
+  foreach($question['odpowiedzi'] as $id => $answer)
+  {
+    if(!empty($answer['warunek']) && calculate($answer['warunek'])==0)  unset($question['odpowiedzi'][$id]);
+  }
+
+  if(empty($question['odpowiedzi'])) {$empty=true; end_game_by_session($sid);} else $empty=false;
 ?>
 
 <div class="well">
 	<div class="container">
 		<div class="page-header">
-			<h3> Pytanie "<?php echo $question['pytanie']['nazwa']; ?>" <small> którą odpowiedź wybierzesz? </small> </h3>
+			<h3> Pytanie "<?php echo $question['pytanie']['nazwa']; ?>" 
+      <?php if(!$empty) { ?>
+      <small> którą odpowiedź wybierzesz? </small> </h3>
+      <?php } ?>
 		</div>
 		<?php
 		if(!empty($question['pytanie']['src'])) { ?>
@@ -23,8 +33,9 @@
 		<?php
 		} ?>
 		<div>
+      
 			<p> <?php echo $question['pytanie']['tekst']; ?> </p>
-
+      <?php if(!$empty) { ?>
 			<ul style="list-style-type: none">
 			<?php
 				foreach($question['odpowiedzi'] as $answer){ ?>
@@ -37,6 +48,10 @@
 				}
 			?>
 			</ul>
+      <?php } else { ?>
+        <h1>Koniec gry</h1>
+        <a href="?page=play"><small>Powrót do strony gier</small></a>
+      <?php } ?>
 		</div>
 	</div>
 </div>

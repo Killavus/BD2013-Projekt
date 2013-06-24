@@ -131,6 +131,43 @@ function end_game($game_id, $user=NULL)
   $GLOBALS['g_session_id']=null;
 }
 
+function end_game_by_session($session_id)
+{
+  $db = user_database();
+  
+  try {
+    $db->beginTransaction();
+    $session_delete = $db->prepare("DELETE FROM sesja WHERE id_sesji=:id_sesji");
+   
+    $session_delete->execute([':id_sesji' => $session_id]);
+    
+    $session_id = $session_delete->fetchColumn();
+    
+    $db->commit();
+    
+    try {
+      $db->beginTransaction();
+      $vars_delete = $db->prepare("DELETE FROM srodowisko WHERE id_sesji=:id_sesji");
+     
+      $vars_delete->execute([':id_sesji' => $session_id]);
+      
+      $db->commit();
+    }
+    catch(PDOException $pdo) {
+    echo $pdo->getMessage();
+    $db->rollBack();
+    }
+    
+  }
+  catch(PDOException $pdo) {
+  echo $pdo->getMessage();
+  $db->rollBack();
+  }
+  
+ 
+  $GLOBALS['g_session_id']=null;
+}
+
 
 //zwraca sesje na podstawie jej id
 function get_session($session_id) {

@@ -192,8 +192,8 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
         elseif($name=='false') return 0;
         else
         {
-          //return get_variable($name, current_session_id());
-         return 0;
+         return get_variable($name, current_session_id());
+         //return 0;
         }
       }
     }
@@ -278,7 +278,7 @@ function set_assignments($str)
     
     $asstab[0]=trim($asstab[0]);
     $asstab[1]=trim($asstab[1]);
-    //set_variable($asstab[0], calculate($asstab[1]), current_session_id());
+    set_variable($asstab[0], calculate($asstab[1]), current_session_id());
     //print $asstab[0].' = '.calculate($asstab[1])."\n";
   }
 }
