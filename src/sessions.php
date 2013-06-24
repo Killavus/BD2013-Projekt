@@ -158,7 +158,13 @@ function get_current_session_id()
   global $g_session_id;
   if($q_session_id === null)
   {
-    $g_session_id=$GET['sid'];
+    if(isset($_GET['sid']))
+    {
+      if(!user_has_session($session_id)) die('Sesja nie należy do użytkownika');
+      $g_session_id=$_GET['sid']; //trzeba sprawdzić czy sesja jest i czy nalerzy do użytkownika
+    }
+    else
+    die('Brak sesji');
   }
   return $g_session_id;
 }
@@ -169,6 +175,17 @@ function get_current_session()
   $session_id=get_current_session_id();
   if($session_id === null) return null;
   return get_session($session_id);
+}
+
+//zwraca prawdę jeżeli user ma sesję
+function user_has_session($session_id, $user = NULL)
+{
+  $session=get_session($session_id);
+  if($session['id_uzytkownika']==deduce_user_id($user))
+  {
+    return true;
+  }
+  return false;
 }
 
 //zwraca liste id kontynuowalnych gier

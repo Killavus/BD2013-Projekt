@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
  /* require_once 'src/core.php';
   //testowanie zaczynania gry
   $sesja = begin_game(2, current_user());
@@ -15,7 +16,21 @@
   
   
   end_game(2);
- */ 
+*/
+ 
+=======
+$available_actions = [
+  'index',
+  'play',
+  'new',
+  'continue'
+];
+
+$action = isSet($_GET['action']) ? strtolower($_GET['action']) : 'index';
+
+//if(signed_in())
+  //require_once 'pages/play_' . $action . '.php';
+>>>>>>> 28543e770f40d75ac38d234de73ccf45325847a2
 ?>
 
 <div class="container">
