@@ -102,7 +102,7 @@ function search_games($word) {
 	$new_word = "%".$word."%";
 	$db = user_database();
 
-	$stmt = $db->prepare('SELECT gra.nazwa AS nazwa_gry,u.login,u.nazwa FROM gra
+	$stmt = $db->prepare('SELECT id_gry,gra.nazwa AS nazwa_gry,u.login,u.nazwa FROM gra
 		JOIN uprawnienie USING(id_gry)
 		JOIN uzytkownik AS u USING(id_uzytkownika)
 		WHERE gra.nazwa LIKE :name');

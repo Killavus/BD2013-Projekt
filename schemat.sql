@@ -37,6 +37,7 @@ ALTER TABLE gra ADD CONSTRAINT gra_id_pytania_fk FOREIGN KEY (id_pytania) REFERE
 
 CREATE TABLE odpowiedz (
 	id_odpowiedzi bigint PRIMARY KEY DEFAULT nextval('odpowiedz_seq'),
+	id_pytania bigint NOT NULL,
 	nazwa text NOT NULL,
 	tekst text NOT NULL,
 	warunek text,

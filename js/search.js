@@ -16,14 +16,28 @@ function filter(word,tBody,site,game_id) {
 function filter2(word,tBody,site) {
 	$.getJSON(site+'?word='+word,function(data) {
 		tBody.html('');
+		console.log(data);
 		for(var i = 0; i < data.length; ++i) {
-			tBody.append('<tr>'+
-				'<td>' + data[i].nazwa_gry + '</td>' +
-				'<td>' + data[i].nazwa + ' (' + data[i].login + ') </td>' +
-				'<td> <a href="#"' + 
-				'class="btn btn-primary btn-small">Zagraj!</a>' +
-				'</td>' +
-			'</tr>');
+			if(continuable.indexOf(data[i].id_gry) >= 0) {
+				tBody.append('<tr>'+
+					'<td>' + data[i].nazwa_gry + '</td>' +
+					'<td>' + data[i].nazwa + ' (' + data[i].login + ') </td>' +
+					'<td> <a href="?page=play&action=new&gid='+data[i].id_gry+'"' + 
+						'class="btn btn-primary btn-small">Nowa gra</a>' +
+					'<a href="?page=play&action=continue&gid='+data[i].id_gry+'"' +
+						'class="btn btn-info btn-small">Kontunuuj</a>' +
+					'</td>' +
+				'</tr>');
+			}
+			else {
+				tBody.append('<tr>'+
+					'<td>' + data[i].nazwa_gry + '</td>' +
+					'<td>' + data[i].nazwa + ' (' + data[i].login + ') </td>' +
+					'<td> <a href="?page=play&action=new&gid='+data[i].id_gry+'"' + 
+						'class="btn btn-primary btn-small">Nowa gra</a>' +
+					'</td>'+
+				'</tr>');
+			}
 		}
 	});
 }
