@@ -191,7 +191,10 @@ function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
         //print 'mam zmienna '.$name.' '.$from.' '.$to.' '.$level."\n";
         if($name=='true') return 1;
         elseif($name=='false') return 0;
-        else return 0; //tu będzie funkcja która pobiera zmienną
+        else
+        {
+          get_variable($name, current_session_id());
+        }
       }
     }
     break;
@@ -275,14 +278,15 @@ function set_variables($str)
     
     $asstab[0]=trim($asstab[0]);
     $asstab[1]=trim($asstab[1]);
-    print $asstab[0].' = '.calculate($asstab[1])."\n";
+    set_variable($asstab[0], calculate($asstab[1]), current_session_id());
+    //print $asstab[0].' = '.calculate($asstab[1])."\n";
   }
 }
 
 //Przykładowe oliczenia
 
 //$str='(5+(1243-43)*3)*(2+2*2)';
-
+/*
 $str='true!=!false';
 
 $str=' (43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna+ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
@@ -301,5 +305,5 @@ print ((43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ 
 
 
 set_variables('kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5');
-
+*/
 ?>
