@@ -1,3 +1,34 @@
+=========
+Serwis:
+
+Serwis służy do przeprowadzania rozgrywek w gry o mechanice tekstowej.
+Gry składają się z serii scen (pytań), wraz z wyborami (odpowiedziami).
+Gracz może przemieszczać się między pytaniami dopóki, dopóty nie dojdzie do
+sceny, która nie ma możliwych wyborów - wtedy gra uznawana jest za zakończoną.
+
+W serwisie jest zaimplementowany system zmiennych, aby urozmaicić rozgrywkę.
+Może on służyć do implementacji różnych wyborów w zależności od ścieżki rozgrywki
+gracza i do m.in. utrzymywania osiągnięć, punktów itd.
+
+Gracz może także tworzyć własne gry i dzielić się nimi z innymi użytkownikami
+serwisu.
+
+========
+Tworzenie gier:
+
+Twórca gier może do każdego z pytań dodawać pytania, odpowiedzi do pytań i łączyć je
+w dowolny sposób. Dodatkowo, do każdego z pytań może być przypisany odpowiedni
+obrazek. Dla każdego z pytań i odpowiedzi możemy zdefiniować zestaw warunków,
+które muszą być spełnione, oraz listę zmian stanu zmiennych.
+
+Co więcej, użytkownik może dodawać współpracowników, którzy także będą mogli dodawać/usuwać pytania i odpowiedzi.
+
+========
+Ustawienia użytkownika:
+
+Użytkownik może zmieniać swoją wyświetlaną nazwę w serwisie za pomocą formularza.
+
+=========
 Wyrażenia:
 
 Mogą się składać z operatorów, nawiasów, białych znaków, liczb, nazw zmiennych i stałych.
