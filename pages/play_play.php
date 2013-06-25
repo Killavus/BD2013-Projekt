@@ -2,12 +2,21 @@
   if(!isset($_GET['qid'])) die('Błąd - brak pytania');
   if(!isset($_GET['sid'])) die('Błąd - brak sesji');
   
+  if(isset($_GET['aid'])) 
+  {
+    $oldanswer=get_answer($_GET['aid']);
+    if(!empty($oldanswer['stan']))
+    set_assignments($oldanswer['stan']);
+  }
   $qid = (int)$_GET['qid'];
   $sid = (int)$_GET['sid'];
   $user = current_user();
   $uid = deduce_user_id($user);
   
 	$question = get_question($qid);
+  
+  if(!empty($question['pytanie']['stan']))
+  set_assignments($question['pytanie']['stan']);
   
   foreach($question['odpowiedzi'] as $id => $answer)
   {
@@ -44,7 +53,7 @@
 				foreach($question['odpowiedzi'] as $answer){ ?>
 					<li>
 						<i class="icon-chevron-right"></i>
-						<a href="?page=play&action=play&sid=<?php echo $sid; ?>&qid=<?php echo $answer['id_pytania']; ?>">
+						<a href="?page=play&action=play&sid=<?php echo $sid; ?>&qid=<?php echo $answer['id_pytania']; ?>&aid=<?php echo $answer['id_odpowiedzi']; ?>">
 						<?php echo $answer['tekst']; ?> </a>
 					</li>
 				<?php

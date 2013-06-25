@@ -177,7 +177,7 @@ function get_session($session_id) {
 
   $db = user_database();
 
-  $stmt = $db->prepare('SELECT id_sesji, id_gry, id_pytania, punkty, rozpoczecie FROM sesja
+  $stmt = $db->prepare('SELECT id_sesji, id_gry, id_pytania, id_uzytkownika, punkty, rozpoczecie FROM sesja
                         WHERE id_sesji = :id');
 
   $stmt->execute([':id' => $session_id]);
@@ -193,18 +193,18 @@ function get_session($session_id) {
 
 function get_current_session_id()
 {
-  global $g_session_id;
-  if($q_session_id === null)
+  if($GLOBALS['g_session_id'] === null)
   {
     if(isset($_GET['sid']))
     {
+      $session_id=$_GET['sid'];
       if(!user_has_session($session_id)) die('Sesja nie należy do użytkownika');
-      $g_session_id=$_GET['sid']; //trzeba sprawdzić czy sesja jest i czy nalerzy do użytkownika
+      $GLOBALS['g_session_id']=$_GET['sid']; //trzeba sprawdzić czy sesja jest i czy nalerzy do użytkownika
     }
     else
-    return null;
+    die('Brak sesji');
   }
-  return $g_session_id;
+  return $GLOBALS['g_session_id'];
 }
 
 //zwraca aktualną sesje
