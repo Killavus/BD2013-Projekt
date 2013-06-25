@@ -84,15 +84,18 @@
           if($var['nazwa'][0]=='@')
           echo substr($var['nazwa'], 1)."<br/>\n";
         }
+        
         foreach($env as $var)
         {
-          if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@')
+          if($var['nazwa'][0]=='#')
+          echo substr($var['nazwa'], 1).' x '.$var['wartosc']."<br/>\n";
+        }
+        
+        foreach($env as $var)
+        {
+          if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@' && $var['nazwa'][0]!='#')
           {
-            if($var['wartosc']==0)
-            {
-              if($var['nazwa'][0]=='#')  echo substr($var['nazwa'], 1).' x '.$var['wartosc']."<br/>\n";
-            }
-            else
+            if($var['wartosc']!=0)
             echo $var['nazwa'].' x '.$var['wartosc']."<br/>\n";
           }
         }
