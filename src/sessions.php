@@ -177,7 +177,7 @@ function get_session($session_id) {
 
   $db = user_database();
 
-  $stmt = $db->prepare('SELECT id_sesji, id_gry, id_pytania, id_uzytkownika, punkty, rozpoczecie FROM sesja
+  $stmt = $db->prepare('SELECT id_sesji, id_gry, id_pytania, id_uzytkownika, rozpoczecie FROM sesja
                         WHERE id_sesji = :id');
 
   $stmt->execute([':id' => $session_id]);
