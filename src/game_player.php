@@ -1,4 +1,5 @@
 <?php
+  /* Pobiera wszystkie gry z bazy danych. */
   function get_all_games() {
 
     $db = user_database();

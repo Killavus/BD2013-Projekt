@@ -40,6 +40,7 @@ function current_user() {
   return $g_user;
 }
 
+/* Wylogowuje (usuwa sesję użytkownika). Nic nie zwraca. */
 function sign_out() {
   if(!isSet($_COOKIE['bd2013_session']))
     return;
@@ -52,6 +53,8 @@ function sign_out() {
   setcookie('bd2013_session', '', 0, '/');
 }
 
+/* Pobiera użytkownika po jego nazwie. Zwraca null, jeżeli użytkownik o danej nazwie nie istnieje. 
+   Jeżeli $case_insensitive jest ustawione na true, pobiera użytkownika nie zważając na wielkość znaków w loginie. */
 function get_user($name, $case_insensitive = true) {
   $key = "login";
 
@@ -113,9 +116,11 @@ function sign_in($user, $password, $expires = 86400) {
   return true;
 }
 
+/* Tworzy nową sesję w bazie danych dla danego użytkownika i przeglądarki.
+   Nic nie zwraca. */ 
 function new_session($user_id, $user_agent, $expires) {
   $db = user_database();
-  $expire_date = date('r', time() + $expires);
+  $expire_date = date('r', time() + $expires); 
   $new_session_id = hash("sha256", 
     strval(time()) . strval($user_id) . APP_SECRET);
 
@@ -137,7 +142,7 @@ function new_session($user_id, $user_agent, $expires) {
   setcookie('bd2013_session', $new_session_id, time() + (int)$expires, '/');
 }
 
-/* Tworzy nowego użytkownika o zadanym loginie, nazwie użytkownika i haśle. */
+/* Tworzy nowego użytkownika o zadanym loginie, nazwie użytkownika i haśle. Nic nie zwraca. */
 function create_user($login, $name, $password) {
   $db = user_database();
 
@@ -169,6 +174,7 @@ function search_users($word,$game_id) {
 	return $result;
 }
 
+/* Aktualizuje użytkownika. Zwraca zawsze true. */
 function update_user($new_name) {
 	if(!signed_in()) return false;
 	

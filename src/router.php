@@ -1,6 +1,7 @@
 <?php
 require_once 'src/config.php';
 
+/* Lista dozwolonych stron. */
 function page_whitelist() {
   return [
     'register',
@@ -12,6 +13,7 @@ function page_whitelist() {
   ];
 }
 
+/* Zwraca nazwę strony bazując na danych z przeglądarki, lub $default. */
 function get_page($default) {
   $page = isSet($_GET['page']) ? $_GET['page'] : $default;
   if(!in_array($page, page_whitelist()))

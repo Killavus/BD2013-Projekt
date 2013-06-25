@@ -1,4 +1,5 @@
 <?php
+/* Sprawdza, czy dany użytkownik ma jakieś modyfikowalne gry. */
 function has_modifiable_games($user = NULL) {
   $id = deduce_user_id($user);
 
@@ -20,18 +21,22 @@ function has_modifiable_games($user = NULL) {
   return $result > 0;
 }
 
+/* sprawdza, czy gracz jest administratorem danej gry. */
 function is_game_admin($game, $user = NULL) {
   return _has_rank($game, $user, 'A');
 }
 
+/* sprawdza, czy gracz jest twórcą danej gry. */
 function is_game_creator($game, $user = NULL) {
   return _has_rank($game, $user, 'A');
 }
 
+/* sprawdza, czy gracz może edytować pytania i odpowiedzi w grze. */
 function can_modify_game($game, $user = NULL) {
   return _has_rank($game, $user, ['A', 'T']);
 }
 
+/* Funkcja prywatna. */
 function _has_rank($game, $user, $rank) {
   $game_id = deduce_game_id($game);
   $user_id = deduce_user_id($user);
@@ -61,6 +66,7 @@ function _has_rank($game, $user, $rank) {
   return $res > 0;
 }
 
+/* Funkcja prywatna. */
 function _set_rank($user_id, $game_id, $rank) {
 	if(!in_array($rank,array('G','T','A')))
 		return false;
@@ -80,6 +86,7 @@ function _set_rank($user_id, $game_id, $rank) {
 	return true;
 }
 
+/* Pobiera modyfikowalne gry dla danego użytkownika. */
 function get_modifiable_games($user = NULL) {
   $id = deduce_user_id($user);
 
@@ -108,6 +115,7 @@ function get_modifiable_games($user = NULL) {
   return $games;
 }
 
+/* Tworzy grę o danej nazwie i przypisuje administratora danemu użytkownikowi. */
 function create_game($name, $user = NULL) {
   $id = deduce_user_id($user);
 
@@ -166,6 +174,7 @@ function create_game($name, $user = NULL) {
   return $game_id;
 }
 
+/* Sprawdza uprawnienia. Popocnicza metoda dla widoków. */
 function check_permissions() {
   if(!isSet($_GET['gid']))
     die("Musisz podać ID gry.");

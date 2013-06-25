@@ -2,6 +2,7 @@
 require_once 'src/utils.php';
 require_once 'src/database.php';
 
+/* Zwraca odpowiedzi o dla danego pytania. Zwraca null jeżeli takich nie ma. */
 function get_answers($game_id,$question_id = null) {
 	$db = user_database();
 	
@@ -29,6 +30,7 @@ function get_answers($game_id,$question_id = null) {
 	return $result;
 }
 
+/* Pobiera odpowiedź o danym ID. */
 function get_answer($id) {
 	$db = user_database();
 
@@ -40,6 +42,7 @@ function get_answer($id) {
 	return $result[0];
 }
 
+/* Pobiera odpowiedź o danej nazwie. */
 function get_answer_by_name($name,$game_id) {
 	$db = user_database();
 	$stmt = $db->prepare('SELECT odpowiedz.* FROM odpowiedz
@@ -54,6 +57,7 @@ function get_answer_by_name($name,$game_id) {
 	return $result;
 }
 
+/* Dodaje odpowiedź do danej gry. */
 function add_answer($ans,$game_id) {
 	$db = creator_database();
 
@@ -86,6 +90,7 @@ function add_answer($ans,$game_id) {
 	return $ans_id;
 }
 
+/* Usuwa odpowiedź o danym ID. */
 function answer_delete($ans_id) {
 	$db = creator_database();
 
@@ -102,6 +107,7 @@ function answer_delete($ans_id) {
 	return true;
 }
 
+/* Aktualizuje daną odpowiedź. */
 function update_answer($ans) {
 	$db = creator_database();
 
@@ -115,6 +121,7 @@ function update_answer($ans) {
 	$stmt->closeCursor();
 }
 
+/* Usuwa odpowiedź z danego pytania. */
 function delete_ans_question($qid,$ans_id) {
 	$db = creator_database();
 
@@ -123,6 +130,7 @@ function delete_ans_question($qid,$ans_id) {
 	$stmt->closeCursor();
 }
 
+/* Dodaje odpowiedź do danego pytania. */
 function add_ans_question($qid,$ans_id) {
 	$db = creator_database();
 

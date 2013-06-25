@@ -2,6 +2,8 @@
 require_once 'src/utils.php';
 require_once 'src/database.php';
 
+/* Pobiera id pytań i ich nazwy dla danej gry. 
+   Zwraca tablicę z tymi danymi. W przypadku błędu będzie to []. */
 function get_questions($game) {
   $id = deduce_game_id($game);
   if((int)$id < 1)
@@ -19,6 +21,7 @@ function get_questions($game) {
   return $questions;
 }
 
+/* Pobiera pojedyńcze pytanie z bazy danych. Zwraca null, gdy nie powiedzie się pobieranie pytania. */
 function get_question($question) {
   $id = deduce_question_id($question);
 
@@ -68,7 +71,7 @@ function get_question($question) {
   return $result_set;
 }
 
-// wyszukuje pytanie o zadanej nazwie w odpowiedniej grze (zakładam, że nazwy mogą się powtarzać, o ile są w różnych grach)
+// Wyszukuje pytanie o zadanej nazwie w odpowiedniej grze (zakładam, że nazwy mogą się powtarzać, o ile są w różnych grach)
 function get_question_by_name($q_name,$game_id) {
 	$db = user_database();
 
@@ -83,6 +86,7 @@ function get_question_by_name($q_name,$game_id) {
 	return $result;
 }
 
+/* Dodaje pytanie do danej gry. */
 function add_question($question,$game_id,$user = null) {
 	$user_id = deduce_user_id($user);
 	$number = null;
@@ -131,6 +135,7 @@ function add_question($question,$game_id,$user = null) {
 	}
 }
 
+/* Usuwa pytanie o danym ID. */
 function question_delete($q_id) {
 	$db = creator_database();
 
@@ -155,6 +160,7 @@ function question_delete($q_id) {
 	return null;
 }
 
+/* Aktualizuje pytanie - wysyłamy cały hash reprezentujący pytanie. */
 function update_question($new) {
 	$db = creator_database();
 	$number = null;

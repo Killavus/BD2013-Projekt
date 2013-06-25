@@ -33,6 +33,7 @@ function get_game($game) {
   ];
 }
 
+/* Sprawdza, czy gra o podanej nazwie istnieje. */
 function game_exists($name) {
   $db = user_database();
 
@@ -98,6 +99,7 @@ function get_game_id($id,$base) { // base = 'P' (pytanie) lub 'O' (odpowiedź)
 	return $result;
 }
 
+/* Szuka gier o danej nazwie które zawierają pewne słowo. */
 function search_games($word) {
 	$new_word = "%".$word."%";
 	$db = user_database();
