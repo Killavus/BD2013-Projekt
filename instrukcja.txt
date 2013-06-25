@@ -31,46 +31,60 @@ Użytkownik może zmieniać swoją wyświetlaną nazwę w serwisie za pomocą fo
 =========
 Wyrażenia:
 
-Mogą się składać z operatorów, nawiasów, białych znaków, liczb, nazw zmiennych i stałych.
+Wyrażenia mogą się składać z operatorów, nawiasów, białych znaków, liczb, nazw zmiennych i stałych.
 
-  Dostępne operatory z priorytetami:
-  1. !,~,-,+ (jednoargumentowe)
-  2. *,/,%
-  3. +,-
-  4. <,<=,>,>=
-  5. ==,!=
-  6. &,^,|  
-  7. &&,||
-  
-  Stałe:
-    Dostępne stałe to 'true'=1 i 'false'=0.
+Dostępne operatory z priorytetami (im niższy numer – tym wyższy priorytet):
+1. !,~,-,+ (jednoargumentowe)
+2. *,/,%
+3. +,-
+4. <,<=,>,>=
+5. ==,!=
+6. &,^,|  
+7. &&,||
 
-  Zmienne: 
-  Zmienne mogą się składać z dużych, małych liter, liczb, białych znaków i znaków '$', '@' oraz '#'.
-  Uwagi: 
-    białe znaki z poczatku i z końca są odrzucane
-    zmienne nie mogą mieć w sobie operatorów (uwaga na -)
+Działanie operatorów jest identyczne jak w języku C. 
+Wyrażenie zawsze jest liczone w arytmetyce całkowitoliczbowej i wynik jest liczbą całkowitą. 
 
-  Przykłady wyrażeń:
-  
-  '(5+(1243-43)*3)*(2+2*2)'
-  'true!=!false'
-  '(43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna+ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'
+Stałe:
+Dostępne stałe to 'true'=1 i 'false'=0.
 
-  Modyfikatory:
-  
-  Jeżeli na początku nazwy zmiennej jest $ to nie będzie ona wyświetlana w grze, a jeżeli @ to nie będzie 
-  wyświetlana ilość tego przedmiotu (wartość boolowska). Gdy wartość zmiennej to 0 nie będzie ona wyświetlana w grze chyba, że zaczyna się od znaku #. Znaki # i @ na początku są pomijane przy wyświetlaniu.
-  
-  Jeżeli zmienna nie istnieje jej wartość to 0.
+Zmienne: 
+Zmienne mogą się składać z dużych, małych liter, liczb, białych znaków i znaków '$', '@' oraz '#'.
+Uwagi: 
+Białe znaki z początku i z końca są odrzucane. 
+Zmienne nie mogą mieć w nazwie operatorów. 
+Jeżeli zmienna nie istnieje traktowana to przy próbie uzyskania jej wartości zawsze dostaniemy 0.
 
-Ciąg przypisań:
-  
-Jest to ciąg przypisań zmiennych w postaci
+Modyfikatory:
 
-  '<nazwa zmiennej1>:=>wyrazenie1>; <nazwa zmiennej2>:=>wyrazenie2> ;(...); <nazwa zmiennejN>:=>wyrazenieN>'
+Jeżeli na początku nazwy zmiennej jest $ to nie będzie ona wyświetlana w grze, a jeżeli @ to nie 
+będzie wyświetlana ilość tego przedmiotu (wartość boolowska). Gdy wartość zmiennej to 0 nie będzie
+ona wyświetlana w grze chyba, że zaczyna się od znaku #. Znaki # i @ na początku są pomijane
+przy wyświetlaniu.
+
+Przykłady wyrażeń:
+
+'(5+(1243-43)*3)*(2+2*2)' – wartość wyrażenia to 21630
+'true!=!false'  – wartość wyrażenia to 0
+'(43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna
++ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)
++(4334!=43)+ ((111111^4545)|5454)' – wartość to 113134 przy wartości zmiennej równej 123
+
+Warunki:
+Warunków można używać do bardziej zaawansowanych gier. Warunki można nakładać na pytania i odpowiedzi.  
+Aby możliwe było przejście z pytania A do B za pomocą odpowiedzi q to muszą być spełnione warunek 
+pytania B i odpowiedzi q. Warunki to nic innego jak wyrażenia, które są spełnione kiedy jego wartość 
+jest inna niż 0.
+
+Ciągi przypisań:
+
+Jest to ciąg przypisań zmiennych w postaci:
+
+'<nazwa zmiennej1>:=>wyrarzenie1>; <nazwa zmiennej2>:=>wyrarzenie2> ;(...); <nazwa zmiennejN>:=>wyrarzenieN>'
+Przypisuje on zmiennej o nazwie <nazwa zmiennej1> wartość wyrarzenia1, zmiennej <nazwa zmiennej2> wartość wyrarzenia2 itd.
 
 Przykład:
-  'kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5'
-  
-  Powyższy przykład przypisze zmiennej 'kalafjor' wartość 0, zmiennej 'bakuazan' 3, a zmiennej 'kalalepa' 8. 
+'kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5'
+
+Powyższy przykład przypisze zmiennej 'kalafjor' wartość 0, zmiennej 'bakuazan' 3, a zmiennej 'kalalepa' 8. 
+
