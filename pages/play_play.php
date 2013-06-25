@@ -87,7 +87,14 @@
         foreach($env as $var)
         {
           if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@')
-          echo $var['nazwa'].' x '.$var['wartosc']."<br/>\n";
+          {
+            if($var['wartosc']==0)
+            {
+              if($var['nazwa'][0]=='#')  echo substr($var['nazwa'], 1).' x '.$var['wartosc']."<br/>\n";
+            }
+            else
+            echo $var['nazwa'].' x '.$var['wartosc']."<br/>\n";
+          }
         }
       ?>
     </p>
