@@ -30,8 +30,11 @@ function except($array, $keys) {
   }
 
   return $result;
-}
+} 
 
+/* Pomocnicza funkcja wyłuskująca ID użytkownika niezależnie od typu (tablicy z danymi, nulla lub id samego), który przekażemy do funkcji.
+   Gdy user == null, pobierany jest użytkownik z sesji przeglądarki użytkownika.
+   Zwraca ID lub null, jeżeli dane wysłane do funkcji są nieprawidłowe lub użytkownik nie jest zalogowany. */
 function deduce_user_id($user) {
   if(is_null($user))
     $user = current_user();
@@ -42,6 +45,7 @@ function deduce_user_id($user) {
   return $user;
 }
 
+/* Analogicznie do deduce_user_id, przy czym nie ma tutaj opcji z null. */
 function deduce_game_id($game) {
   if(is_array($game))
     if(isSet($game['gra']))
@@ -52,6 +56,7 @@ function deduce_game_id($game) {
   return $game;
 }
 
+/* Analogicznie do deduce_user_id, przy czym nie ma tutaj opcji z null. */
 function deduce_question_id($question) {
   if(is_array($question))
     if(is_array($question['pytanie']))

@@ -11,7 +11,7 @@ Dostępne operatory z priorytetami:
 */
 $GLOBALS['g_last_calculate_error']=null;
 
-
+/* Pobiera zmienną z danej sesji gracza. */
 function get_variable($name, $session_id) {
   $db = user_database();
   $stmt = $db->prepare("SELECT srodowisko.wartosc FROM srodowisko WHERE id_sesji=:id_sesji 
@@ -24,6 +24,7 @@ function get_variable($name, $session_id) {
   return intval($result);
 }
 
+/* Ustawia zmienną z danej sesji gracza. */
 function set_variable($name, $value, $session_id) {
   $db = user_database();
   $db->beginTransaction();
@@ -42,7 +43,7 @@ function set_variable($name, $value, $session_id) {
   $db->commit();
 }
 
-
+/* Pobiera zmienne z danej sesji gracza. */
 function get_environment($session_id) {
   $db = user_database();
   $stmt = $db->prepare("SELECT srodowisko.nazwa,srodowisko.wartosc FROM srodowisko WHERE id_sesji=:id_sesji ORDER BY srodowisko.nazwa");
@@ -55,7 +56,7 @@ function get_environment($session_id) {
   return $result;
 }
 
-
+/* Oblicza wyrażenie w naszym języku zmiennych. */
 function calculate($str)
 {
   return calculate_ex($str, 0, strlen($str)-1, 0);
@@ -378,28 +379,4 @@ function get_error_message($id)
     return 'Brak operatora \':=\''; 
   }
 }
-//Przykładowe oliczenia
-
-//$str='(5+(1243-43)*3)*(2+2*2)';
-/*
-$str='true!=!false';
-
-$str=' (43434%((2>4 )+(3<5)+ !zmienna bardzo zmienna+ (5 <=5)+ (4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454)'; //przykladowe obliczenia
-
-$str='';
-
-try
-{
-  $out=calculate($str);
-  print $out."\n";
-}
-catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
-
-print ((43434%((2>4)+(3<5)+ (5<=5)+(4>=5))/2*432)+543-(23== 435645)+(4334!=43)+ ((111111^4545)|5454))."\n"; //tu to samo w PHP dla porównania
-
-
-set_variables('kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5');
-*/
 ?>
