@@ -80,37 +80,37 @@
   <div class="container">
 		<div class="page-header">
 			<h4> Przedmioty i zasoby: </h4>
-		</div>
-    <ul>
-    <?php 
-      foreach($env as $var)
-      {
-        if($var['nazwa'][0]=='@')
-        echo '<li>' . substr($var['nazwa'], 1)."</li>\n";
-      }
-      ?>
-    </ul>
-    <ul>
-      <?php
-      foreach($env as $var)
-      {
-        if($var['nazwa'][0]=='#')
-        echo '<li>' . substr($var['nazwa'], 1).' &times; '.$var['wartosc']."</li>\n";
-      }
-      ?>
-    </ul>
-    <ul>
-      <?php
-      foreach($env as $var)
-      {
-        if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@' && $var['nazwa'][0]!='#')
+      <ul>
+      <?php 
+        foreach($env as $var)
         {
-          if($var['wartosc']!=0)
-          echo '<li>' . $var['nazwa'].' &times; '.$var['wartosc']."</li>\n";
+          if($var['nazwa'][0]=='@')
+          echo '<li>' . substr($var['nazwa'], 1)."</li>\n";
         }
-      }
-      ?>
-    </ul>
+        ?>
+      </ul>
+      <ul>
+        <?php
+        foreach($env as $var)
+        {
+          if($var['nazwa'][0]=='#')
+          echo '<li>' . substr($var['nazwa'], 1).' &times; '.$var['wartosc']."</li>\n";
+        }
+        ?>
+      </ul>
+      <ul>
+        <?php
+        foreach($env as $var)
+        {
+          if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@' && $var['nazwa'][0]!='#')
+          {
+            if($var['wartosc']!=0)
+            echo '<li>' . $var['nazwa'].' &times; '.$var['wartosc']."</li>\n";
+          }
+        }
+        ?>
+      </ul>
+		</div>
 	</div>
   <?php } ?>
 </div>
