@@ -36,11 +36,19 @@
 <div class="well">
 	<div class="container">
 		<div class="page-header">
-			<h3> Pytanie "<?php echo $question['pytanie']['nazwa']; ?>" 
-      <?php if(!$empty) { ?>
-      <small> którą odpowiedź wybierzesz? </small> 
-      <?php } ?>
-      </h3>
+    <?php
+    if($empty) {
+    ?>
+        <h3>Koniec gry!</h3>
+        <a href="?page=play"><small>Powrót do strony gier</small></a>
+    <?php
+    }
+    else {
+    ?>
+      <h3>Scena #<?php echo $question['pytanie']['id_pytania']; ?>:</h3>
+    <?php
+    }
+    ?>
 		</div>
 		<?php
 		if(!empty($question['pytanie']['src'])) { ?>
@@ -63,12 +71,9 @@
 					</li>
 				<?php
 				}
+      }
 			?>
 			</ul>
-      <?php } else { ?>
-        <h1>Koniec gry</h1>
-        <a href="?page=play"><small>Powrót do strony gier</small></a>
-      <?php } ?>
 		</div>
 	</div>
   <?php if(!empty($env)) { ?>
@@ -76,31 +81,36 @@
 		<div class="page-header">
 			<h4> Przedmioty i zasoby: </h4>
 		</div>
-		<p>
-      <?php
-        
-        foreach($env as $var)
-        {
-          if($var['nazwa'][0]=='@')
-          echo substr($var['nazwa'], 1)."<br/>\n";
-        }
-        
-        foreach($env as $var)
-        {
-          if($var['nazwa'][0]=='#')
-          echo substr($var['nazwa'], 1).' x '.$var['wartosc']."<br/>\n";
-        }
-        
-        foreach($env as $var)
-        {
-          if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@' && $var['nazwa'][0]!='#')
-          {
-            if($var['wartosc']!=0)
-            echo $var['nazwa'].' x '.$var['wartosc']."<br/>\n";
-          }
-        }
+    <ul>
+    <?php 
+      foreach($env as $var)
+      {
+        if($var['nazwa'][0]=='@')
+        echo '<li>' . substr($var['nazwa'], 1)."</li>\n";
+      }
       ?>
-    </p>
+    </ul>
+    <ul>
+      <?php
+      foreach($env as $var)
+      {
+        if($var['nazwa'][0]=='#')
+        echo '<li>' . substr($var['nazwa'], 1).' &times; '.$var['wartosc']."</li>\n";
+      }
+      ?>
+    </ul>
+    <ul>
+      <?php
+      foreach($env as $var)
+      {
+        if($var['nazwa'][0]!='$' && $var['nazwa'][0]!='@' && $var['nazwa'][0]!='#')
+        {
+          if($var['wartosc']!=0)
+          echo '<li>' . $var['nazwa'].' &times; '.$var['wartosc']."</li>\n";
+        }
+      }
+      ?>
+    </ul>
 	</div>
   <?php } ?>
 </div>
