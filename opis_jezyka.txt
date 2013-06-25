@@ -37,7 +37,7 @@ Ciąg przypisań:
   
 Jest to ciąg przypisań zmiennych w postaci
 
-  '<nazwa zmiennej1>:=>wyrarzenie1>; <nazwa zmiennej2>:=>wyrarzenie2> ;(...); <nazwa zmiennejN>:=>wyrarzenieN>'
+  '<nazwa zmiennej1>:=>wyrazenie1>; <nazwa zmiennej2>:=>wyrazenie2> ;(...); <nazwa zmiennejN>:=>wyrazenieN>'
 
 Przykład:
   'kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5'

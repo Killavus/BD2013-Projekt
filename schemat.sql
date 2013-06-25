@@ -77,7 +77,6 @@ CREATE TABLE sesja (
 	id_uzytkownika bigint NOT NULL,
 	id_gry bigint NOT NULL,
 	id_pytania bigint NOT NULL,
-	punkty integer NOT NULL DEFAULT 0,
 	rozpoczecie timestamp DEFAULT now(),
 	CONSTRAINT sesja_id_uzytkownika_fk FOREIGN KEY (id_uzytkownika) REFERENCES uzytkownik ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT sesja_id_gry_fk FOREIGN KEY (id_gry) REFERENCES gra ON DELETE CASCADE ON UPDATE CASCADE,
