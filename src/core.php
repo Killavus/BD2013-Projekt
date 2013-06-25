@@ -2,7 +2,6 @@
 /*
  * Plik załączający wszystkie moduły.
  */
-
 require_once 'src/utils.php';
 require_once 'src/user.php';
 require_once 'src/game.php';

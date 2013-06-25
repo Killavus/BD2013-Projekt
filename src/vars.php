@@ -60,7 +60,7 @@ function calculate($str)
 {
   return calculate_ex($str, 0, strlen($str)-1, 0);
 }
-function calculate_ex(&$str, $from, $to, $level) //kod 'MEGA GÓWNO'
+function calculate_ex(&$str, $from, $to, $level)
 {
   //print substr($str, $from, $to-$from+1).' '.$from.' '.$to.' '.$level."\n";
   
