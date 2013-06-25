@@ -24,7 +24,15 @@ if(!preg_match('/([^ \t\n\r]+)/',$new_question['tekst'])) {
 	return null;
 }
 
-//Sprawdzenia stanu i warunku - TO DO
+if(!empty($new_question['stan']) && check_assignments($new_question['stan']) === false) {
+	redirect_to('creator',['action' => 'edit_component', 'qid' => $new_question['id_pytania'], 'error' => 12, 'cerror' => get_last_error()]);
+  return null;
+}
+
+if(!empty($new_question['warunek']) && check_expression($new_question['warunek']) === false) {
+	redirect_to('creator',['action' => 'edit_component', 'qid' => $new_question['id_pytania'], 'error' => 13, 'cerror' => get_last_error()]);
+	return null;
+}
 
 if(!can_modify_game($game_id)) {
 	redirect_to('creator',['action' => 'edit_component', 'qid' => $new_question['id_pytania'], 'error' => 1]);

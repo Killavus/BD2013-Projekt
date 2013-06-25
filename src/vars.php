@@ -378,8 +378,6 @@ function get_error_message($id)
     return 'Brak operatora \':=\''; 
   }
 }
-
-
 //Przykładowe oliczenia
 
 //$str='(5+(1243-43)*3)*(2+2*2)';

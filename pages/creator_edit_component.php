@@ -12,7 +12,14 @@ function message(){
 			7 => "Nie udało się załadować pliku",
 			8 => "Niespójność transakcji"
 		];
+    
+    $error_number = (int)$_GET['error'];
+		if($error_number == 12)
+			$errors[12] = 'Stan: '.get_error_message((int)$_GET['cerror']);
 
+		if($error_number == 13)
+			$errors[13] = 'Warunek: '.get_error_message((int)$_GET['cerror']);
+    
 		$text = $errors[(int)$_GET['error']];
 
 		echo "<div class='alert alert-error'>

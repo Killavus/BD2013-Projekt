@@ -30,6 +30,17 @@ if(!can_modify_game($game_id)) {
 	return null;
 }
 
+if(!empty($new_answer['stan']) && check_assignments($new_answer['stan']) === false) {
+	redirect_to('creator',['action' => 'edit_component', 'ans_id' => $new_answer['id'], 'error' => 12, 'cerror' => get_last_error()]);
+  return null;
+}
+
+if(!empty($new_answer['warunek']) && check_expression($new_answer['warunek']) === false) {
+	redirect_to('creator',['action' => 'edit_component', 'ans_id' => $new_answer['id'], 'error' => 13, 'cerror' => get_last_error()]);
+	return null;
+}
+
+
 update_answer($new_answer);
 redirect_to('creator',['action' => 'edit_component','ans_id' => $new_answer['id'], 'success' => 4]);
 

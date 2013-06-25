@@ -1,21 +1,21 @@
 Wyrażenia:
 
-Mogą się składać z operatorów, nawiasów (), białych znaków, liczb, nazw zmiennych i stałych.
+Mogą się składać z operatorów, nawiasów, białych znaków, liczb, nazw zmiennych i stałych.
 
   Dostępne operatory z priorytetami:
-  6. !,~,-,+ (jednoargumentowe)
-  5. *,/,%
-  4. +,-
-  3. <,<=,>,>=
-  2. ==,!=
-  1. &,^,|  
-  0. &&,||
+  1. !,~,-,+ (jednoargumentowe)
+  2. *,/,%
+  3. +,-
+  4. <,<=,>,>=
+  5. ==,!=
+  6. &,^,|  
+  7. &&,||
   
   Stałe:
-    dostępne stałe to 'true'=1 i 'false'=0
+    Dostępne stałe to 'true'=1 i 'false'=0.
 
   Zmienne: 
-  mogą się składać z dużych, małych liter, liczb, białych znaków, znaków $,@ i chuj wie czego jeszcze
+  Zmienne mogą się składać z dużych, małych liter, liczb, białych znaków i znaków '$', '@' oraz '#'.
   Uwagi: 
     białe znaki z poczatku i z końca są odrzucane
     zmienne nie mogą mieć w sobie operatorów (uwaga na -)
@@ -29,7 +29,7 @@ Mogą się składać z operatorów, nawiasów (), białych znaków, liczb, nazw 
   Modyfikatory:
   
   Jeżeli na początku nazwy zmiennej jest $ to nie będzie ona wyświetlana w grze, a jeżeli @ to nie będzie 
-  wyświetlana ilość tego przedmiotu (wartość boolowska). Oczywiście znaczki będą pomijane przy wyświetlaniu.
+  wyświetlana ilość tego przedmiotu (wartość boolowska). Gdy wartość zmiennej to 0 nie będzie ona wyświetlana w grze chyba, że zaczyna się od znaku #. Znaki # i @ na początku są pomijane przy wyświetlaniu.
   
   Jeżeli zmienna nie istnieje jej wartość to 0.
 
@@ -41,3 +41,5 @@ Jest to ciąg przypisań zmiennych w postaci
 
 Przykład:
   'kalafjor:=true!=!false ; bakuazan:=2+5/3 ; kalalepa:=bakuazan+5'
+  
+  Powyższy przykład przypisze zmiennej 'kalafjor' wartość 0, zmiennej 'bakuazan' 3, a zmiennej 'kalalepa' 8. 
