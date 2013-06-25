@@ -15,6 +15,8 @@
   
 	$question = get_question($qid);
   
+  update_question_in_session($sid, $qid);
+  
   if(!empty($question['pytanie']['stan']))
   set_assignments($question['pytanie']['stan']);
   

@@ -227,7 +227,8 @@ function user_has_session($session_id, $user = NULL)
 }
 
 //zwraca liste id kontynuowalnych gier
-function get_continuable_games($user = NULL) {
+function get_continuable_games($user = NULL) 
+{
   $id = deduce_user_id($user);
 
   if((int)$id < 1)
@@ -246,6 +247,26 @@ function get_continuable_games($user = NULL) {
   }
 
   return $games;
+}
+
+function update_question_in_session($session_id, $qid)
+{
+  $db = user_database();
+  
+  try {
+    $db->beginTransaction();
+    $session_delete = $db->prepare("UPDATE sesja SET id_pytania=:id_pytania WHERE id_sesji=:id_sesji");
+   
+    $session_delete->execute([':id_sesji' => $session_id, ':id_pytania' => $qid]);
+    
+    $session_id = $session_delete->fetchColumn();
+    
+    $db->commit();
+  }
+  catch(PDOException $pdo) {
+  echo $pdo->getMessage();
+  $db->rollBack();
+  }
 }
 
 
