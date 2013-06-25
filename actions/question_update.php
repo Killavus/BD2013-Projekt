@@ -68,7 +68,7 @@ if($new_question['image']) {
 		redirect_to('creator',['action' => 'edit_component', 'qid' => $new_question['id_pytania'], 'error' => 8]);
 	} 
    
-	$finalPath = "/var/www".ROOT."/img/".$nameBeg.$imageNumber.".".$extension;
+	$finalPath = "img/".$nameBeg.$imageNumber.".".$extension;
 	move_uploaded_file($uploadDir,$finalPath);
 }
 redirect_to('creator',['action' => 'edit_component', 'qid' => $new_question['id_pytania'], 'success' => 3]);

@@ -77,7 +77,7 @@ if($question['image']) {
 		redirect_to('creator',['action' => 'edit', 'gid' => $game_id, 'error' => 11]);
 	}
 
-	$finalPath = "/var/www".ROOT."/img/".$nameBeg.$imageNumber.".".$extension;
+	$finalPath = "img/".$nameBeg.$imageNumber.".".$extension;
 	move_uploaded_file($uploadDir,$finalPath);
 }
 
