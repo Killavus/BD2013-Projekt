@@ -16,7 +16,8 @@
 	</div>
 
 	<div>
-		Lorem ipsum dolor sit amet&hellip;
+    <p>Zarejestruj się, przejrzyj nasze gry i dołącz do przygody, jaką jest
+      tworzenie swoich własnych światów tekstowych!</p>
 	</div>
 
 </div>
