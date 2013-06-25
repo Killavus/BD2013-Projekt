@@ -202,7 +202,7 @@ function get_current_session_id()
       $GLOBALS['g_session_id']=$_GET['sid']; //trzeba sprawdzić czy sesja jest i czy nalerzy do użytkownika
     }
     else
-    die('Brak sesji');
+    return 0;
   }
   return $GLOBALS['g_session_id'];
 }
